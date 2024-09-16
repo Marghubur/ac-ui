@@ -1,0 +1,181 @@
+<div class="h-100">
+  <div class="px-1 px-md-5 px-lg-1 px-xl-5 log-vh overflow-hidden">
+    <div class="border-0">
+      <div class="row">
+        <div class="col-md-8">
+          <div class="card1 pb-5">
+            <div class="d-flex flex-row justify-content-center mt-5"> <img src="assets/images/logo.png" class="logo"
+                alt="logo"> </div>
+            <div class="row px-3 justify-content-center mt-4 mb-5 border-line">
+              <img src="assets/images/login-accounting.jpeg" class="image">
+              <blockquote class="mt-4 blockquote text-center">
+                <p>
+                  Welcome to EMSTUM online account and HRM management system.
+                  Register now or request for 1 month free trial to use the software.
+                </p>
+                <footer class="blockquote-footer">Powered By: <cite title="Source Title">BottomHalf Pvt. Ltd.</cite>
+                </footer>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 d-flex flex-column justify-content-center log-vh">
+          <div class="d-flex flex-column justify-content-between">
+            <div class="col-lg-12">
+              <div class="card2 card border-0 px-4 py-5">
+                <div class="col-12 text-center">
+                  <h2 class="text-primary-c fw-700">
+                    Welcome to AxilCorps
+                  </h2>
+                  <p class="my-2">Your use credential detail like, email or mobile to login into the system.</p>
+                </div>
+                <div class="login-box">
+                  <div class="mt-1">
+                    <ng-container *ngIf="isLocal">
+                      <div class="row m-0 p-0">
+                        <label class="mb-1">
+                          <h6 class="mb-0 text-sm">Email or Mobile</h6>
+                        </label>
+                        <input class="mb-4" value="{{isLocal ? 'marghub12@gmail.com' : null}}"  id="EmailOrMobile" placeholder="Email or Mobile Number"
+                          name="UserId">
+                      </div>
+                      <div class="row m-0 p-0 d-none">
+                        <label class="mb-1">
+                          <h6 class="mb-0 text-sm">Company Code</h6>
+                        </label>
+                        <input class="mb-4" (input)="inputToUppercase($event)" value="{{isLocal ? 'BOT00031' : ''}}"  id="CompanyCode" placeholder="Enter company code" name="CompanyCode">
+                      </div>
+                      <div class="row m-0 p-0">
+                        <label class="mb-1">
+                          <h6 class="mb-0 text-sm">Password</h6>
+                        </label>
+                        <div class="position-relative p-0 m-0 form-group">
+                          <input type="password" value="{{isLocal ? '123456789' : null}}" (keyup.enter)="UserLogin()" class="form-control" placeholder="Password" id="Password"
+                            name="Password">
+                          <ng-container *ngIf="isShowPassword">
+                            <a href="javascript:void(0)" class="view-c" (click)="hidePassword()">
+                              <i class="fa-regular fa-eye"></i>
+                            </a>
+                          </ng-container>
+                          <ng-container *ngIf="!isShowPassword">
+                            <a href="javascript:void(0)" class="view-c" (click)="showPassword()">
+                              <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+                            </a>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <ng-container *ngIf="!isLocal">
+                      <div class="row m-0 p-0">
+                        <label class="mb-1">
+                          <h6 class="mb-0 text-sm">Email or Mobile</h6>
+                        </label>
+                        <input class="mb-4" value=""  id="EmailOrMobile" placeholder="Email or Mobile Number"
+                          name="UserId">
+                      </div>
+                      <div class="row m-0 p-0">
+                        <label class="mb-1">
+                          <h6 class="mb-0 text-sm">Company Code</h6>
+                        </label>
+                        <input class="mb-4" value=""  id="CompanyCode" placeholder="Enter company code" name="CompanyCode" (input)="inputToUppercase($event)">
+                      </div>
+                      <div class="row m-0 p-0">
+                        <label class="mb-1">
+                          <h6 class="mb-0 text-sm">Password</h6>
+                        </label>
+                        <div class="position-relative p-0 m-0 form-group">
+                          <input type="password" value="" (keyup.enter)="UserLogin()" class="form-control" placeholder="Password" id="Password"
+                            name="Password">
+                          <ng-container *ngIf="isShowPassword">
+                            <a href="javascript:void(0)" class="view-c" (click)="hidePassword()">
+                              <i class="fa-regular fa-eye"></i>
+                            </a>
+                          </ng-container>
+                          <ng-container *ngIf="!isShowPassword">
+                            <a href="javascript:void(0)" class="view-c" (click)="showPassword()">
+                              <i class="fa-regular fa-eye-slash" aria-hidden="true"></i>
+                            </a>
+                          </ng-container>
+                        </div>
+                      </div>
+                    </ng-container>
+                    <div class="d-flex pt-3 mb-4 col-md-12 justify-content-between">
+                      <div class="form-check d-flex">
+                        <input class="form-check-input form-check-inputbox" checked type="checkbox" id="gridCheck">
+                        <label class="form-check-label ps-2" for="gridCheck">
+                          I agree to our Terms of Service
+                        </label>
+                      </div>
+                      <a href="javascript:void(0)" (click)="forgotPasswordModal()" class="ml-auto mb-0 text-sm">Forgot Password?</a>
+                    </div>
+                    <div class="mb-3">
+                      <button type="button" (click)="UserLogin()" [disabled]="isLoading"
+                        class="btn btn-primary-dark text-center">
+                        <i class="fa-solid"  [ngClass]="{'fa-spinner fa-spin': isLoading, 'fa-arrow-right-to-bracket': !isLoading}"></i>
+                        {{ isLoading ? 'Signing' : 'Sign In' }}</button>
+                    </div>
+                  </div>
+                  <div class="position-relative border-top d-flex justify-content-center divider-box">
+                    <div class="block-dv position-absolute">Or</div>
+                  </div>
+                  <div class="my-3">
+                    <b>Note:</b>
+                    <span>Login is only possible if you or your organization have been registered with us.</span>
+                    <p>If you want to explore more please visit us by clicking on below link</p>
+                    <p class="text-primary-c fw-bold underline">BottomHalf Pvt. Ltd. Organization.</p>
+                  </div>
+                  <div class="col-12 mt-3">
+                    <p class="mb-0">By clicking login you are agree to our
+                      <a href="javascript:void(0)" class="text-primary">Terms & Condition</a>
+                    </p>
+                    <small class="text-dark fw-semibold">V - {{appVersion}}</small>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="btn-primary-dark footer-top pt-4 pb-2 footer-section">
+    <div class="d-flex justify-content-between px-3">
+      <small class="ms-4 ms-sm-5 mb-2">Copyright &copy; 2024. All rights reserved.</small>
+      <div class="social-contact ms-4 ms-sm-auto"> <span class="fa-brands fa-facebook-f me-4 text-sm"></span> <span
+          class="fa-brands fa-google-plus-g me-4 text-sm"></span> <span class="fa-brands fa-linkedin-in me-4 text-sm"></span> <span
+          class="fa-brands fa-x-twitter me-4 me-sm-5 text-sm"></span> </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Forgot Password Modal -->
+<div class="modal fade" id="ForgotPasswordModal" tabindex="-1" aria-labelledby="ForgotPasswordModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content px-4">
+      <div class="modal-header border-bottom-0">
+        <h5 class="modal-title" id="ForgotPasswordModalLabel">Forgot Password Modal</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label >Enter your register email</label>
+          <input type="text" placeholder="Enter your register email" class="form-control" id="registeredEmailId">
+        </div>
+        <div class="mt-2 d-none">
+          <label class="mb-1">
+            <h6 class="mb-0 text-sm">Company Code</h6>
+          </label>
+          <input class="mb-4"  (input)="inputToUppercase($event)"  id="RegisterCompanyCode" placeholder="Enter company code" name="CompanyCode">
+        </div>
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        <button type="button" (click)="sendForgotPassword()" [disabled]="isLoading"
+                      class="btn btn-primary-dark text-center">
+                      <i  [ngClass]="{'fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-paper-plane': !isLoading}"></i>
+                      {{ isLoading ? 'Sending' : 'Send' }}</button>
+      </div>
+    </div>
+  </div>
+</div>

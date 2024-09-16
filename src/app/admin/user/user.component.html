@@ -1,0 +1,140 @@
+<div class="col-md-12 main-container">
+  <div class="content-header">
+    <div class="col-6 d-flex">
+      <div class="col-auto px-1">
+        <app-breadcrums [title]="'User detail'"></app-breadcrums>
+      </div>
+    </div>
+    <div class="col-6 d-fex text-end">
+      <div class="col-auto d-flex justify-content-end text-end">
+        <button class="btn btn-primary-c" (click)="navtoAddEmp()" routerLinkActive="router-link-active"> <i
+            class="fa-regular fa-square-plus ms-1" aria-hidden="true"></i>
+          Add User
+        </button>
+        <input type="text" class="mx-2 form-control form-control-sm g-search" (keydown.esc)="resetFilter()"
+          (keyup.enter)="globalFilter(globalfilterInput)" placeholder="Search by any: (Name, Mobile And Email)"
+          [(ngModel)]="anyFilter" #globalfilterInput>
+        <button class="btn  btn-primary-c" (click)="globalFilter(globalfilterInput)">
+          <i class="fa-solid fa-filter"></i>
+        </button>
+        <button class="btn btn-danger ms-1" (click)="resetFilter()">
+          <i class="fa-solid fa-arrow-rotate-right"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="x_panel">
+    <div class="x_content">
+      <div class="t-table t-list col-md-12">
+        <div class="t-head">
+          <div class="tr">
+            <div class="th fe-5">
+              <div class="cell-wrapper">
+                <input class="form-control form-control-sm" (keydown.esc)="resetFilter()" maxlength="12"
+                  (keyup.enter)="filterRecords(employeeinputElement)" #employeeinputElement [(ngModel)]="userDetail.name"
+                  placeholder="Search by Name" id="namefilter">
+                <div class="t-filter" (click)="arrangeDetails(orderByNameAsc, 'firstName')">
+                  <a href="javascript:void()" class="pe-2">Full Name</a>
+                  <i class="fa-solid fa-arrow-down-wide-short"
+                    [ngClass]="{'d-none': orderByNameAsc == null || !orderByNameAsc }" aria-hidden="true"></i>
+                  <i class="fa-solid fa-arrow-down-short-wide"
+                    [ngClass]="{'d-none': orderByNameAsc == null || orderByNameAsc }" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div class="th fe-2">
+              <div class="cell-wrapper">
+                <input class="form-control  form-control-sm" (keyup.enter)="filterRecords(mobileInputElement)" type="number"
+                  (keydown.esc)="resetFilter()" [(ngModel)]="userDetail.mobileNumber" maxlength="10" min="0"
+                  placeholder="Search by MobileNumber" #mobileInputElement (input)="getOnlyPositiveNUmber($event)">
+                <div class="t-filter" (click)="arrangeDetails(orderByMobileAsc, 'mobileNumber')">
+                  <a href="javascript:void()" class="pe-2">Mobile Number</a>
+                  <i class="fa-solid fa-arrow-down-wide-short"
+                    [ngClass]="{'d-none': orderByMobileAsc == null || !orderByMobileAsc }" aria-hidden="true"></i>
+                  <i class="fa-solid fa-arrow-down-short-wide"
+                    [ngClass]="{'d-none': orderByMobileAsc == null || orderByMobileAsc }" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div class="th fe-3">
+              <div class="cell-wrapper">
+                <input class="form-control  form-control-sm" (keyup.enter)="filterRecords(emailInputElement)" type="email" maxlength="10"
+                  (keydown.esc)="resetFilter()" [(ngModel)]="userDetail.emailId" placeholder="Search by Email" #emailInputElement>
+                <div class="t-filter" (click)="arrangeDetails(orderByAccountAsc, 'accountId')">
+                  <a href="javascript:void()" class="pe-2">Account No.</a>
+                  <i class="fa-solid fa-arrow-down-wide-short"
+                    [ngClass]="{'d-none': orderByAccountAsc == null || !orderByAccountAsc }" aria-hidden="true"></i>
+                  <i class="fa-solid fa-arrow-down-short-wide"
+                    [ngClass]="{'d-none': orderByAccountAsc == null || orderByAccountAsc }" aria-hidden="true"></i>
+                </div>
+              </div>
+            </div>
+            <div class="th fe-1 text-center">
+              <div class="cell-wrapper">
+                <!-- <a href="{{downlodexcelFilePath}}" class="d-none" id="downloadexistingfiled"></a>
+                <a href="javascript:void(0)" class="text-success ms-3" (click)="exportData(2)"
+                  data-bs-toggle="tooltip" data-bs-placement="right" title="export as excel">
+                  <i class="fa-regular fa-file-excel fa-lg"></i>
+                </a> -->
+                <div>ACTIONS</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="t-body">
+          @if (isFileFound) {
+            <div class="tr py-2" *ngFor="let user of users; let i = index;">
+              <div class="td align-middle fe-5">
+                <div class="cell-wrapper">
+                  <div class="col-auto d-inline-block rounded-circle">
+                    <img src="assets/images/face.jpg" alt="profile" class="rounded-circle user-profile">
+                     <!-- <div class="user-profile fw-semibold rounded-circle text-dark d-flex align-items-center justify-content-center" [style.backgroundColor]="getBackgroundColor()">
+                      {{user.firstName | slice: 0:2 | titlecase}}
+                     </div> -->
+                  </div>
+                  <a href="javascript:void(0)" class="ps-2" (click)="EditCurrent(user)">{{user.firstName}}
+                    {{user.lastName}}
+                    <small class="text-muted text-decoration-none ps-2">
+                      [Id: {{user.userId}}]
+                    </small>
+                  </a>
+                </div>
+              </div>
+              <div class="td align-middle fe-2">
+                <div class="cell-wrapper">
+                  {{user.mobileNumber}}
+                </div>
+              </div>
+              <div class="td align-middle fe-3">
+                <div class="cell-wrapper">
+                  {{user.accountId}}
+                </div>
+              </div>
+              <div class="td align-middle fe-1">
+                <div class="d-flex flex-row justify-content-evenly">
+                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="editUser(user)"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="View Files">
+                    <span class="badge bg-primary"><i class="fa-solid fa-pencil" aria-hidden="true"></i></span>
+                  </a>
+                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}"
+                    data-bs-toggle="tooltip" data-bs-placement="right" title="View Documents">
+                    <span class="badge bg-danger"><i class="fa-solid fa-trash-alt"
+                        aria-hidden="true"></i></span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          } @else {
+            <app-bt-record-not-found></app-bt-record-not-found>
+          }
+        </div>
+      </div>
+    </div>
+    @if (isFileFound) {
+      <div class="">
+        <app-pagination [pagination]="userData" (onPageChange)="GetFilterResult($event)"></app-pagination>
+      </div>
+    }
+  </div>
+</div>
