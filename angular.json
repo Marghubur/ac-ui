@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "ems_emstum_ui": {
+    "axilcorps-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/ems_emstum_ui",
+            "outputPath": "dist/axilcorps-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -75,10 +75,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "ems_emstum_ui:build:production"
+              "buildTarget": "axilcorps-ui:build:production"
             },
             "development": {
-              "buildTarget": "ems_emstum_ui:build:development"
+              "buildTarget": "axilcorps-ui:build:development"
             }
           },
           "defaultConfiguration": "development"

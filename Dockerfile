@@ -1,17 +1,14 @@
-FROM maven:3.8.1-openjdk-17 AS MAVEN
+#   BUILD STAGE 1
 
-MAINTAINER BOTTOMHALF
-
-COPY pom.xml /build/
-COPY src /build/src/
-
-WORKDIR /build/
-RUN mvn package
-
-FROM openjdk:17-oracle
+FROM node:20.16.0 as node
 WORKDIR /app
-EXPOSE 8090
 
-COPY --from=MAVEN /build/target/apigateway.jar /app/
+COPY . .
 
-ENTRYPOINT ["java", "-jar", "apigateway.jar", "--spring.profiles.active=prod"]
+RUN npm install
+
+RUN npm run build -- --configuration production
+
+# STAGE 2
+FROM nginx:alpine
+COPY --from=node /app/dist/axilcorps-ui/browser /usr/share/nginx/html

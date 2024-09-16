@@ -21,7 +21,7 @@ export class AjaxService {
 
   public GetImageBasePath() {
     let ImageBaseUrl = environment.baseUrl.replace('/core/api', '/Files');
-    //  let ImageBaseUrl = ("https://www.emstum.com/bot/dn/").replace("/core/api", "/Files");
+    //  let ImageBaseUrl = ("https://www.axilcorps.com/bot/dn/").replace("/core/api", "/Files");
     ImageBaseUrl = ImageBaseUrl + 'Files/';
     return ImageBaseUrl;
   }
@@ -214,18 +214,18 @@ export class AjaxService {
     });
   }
 
-  getServiceUrl(Url: string): string {
-    let BaseUrlPath = `https://www.emstum.com/bot/dn/api`;
-    let localBaseUrlPath = `${environment.baseUrl}api`;
+  getServiceUrl(Url: string, isLocalServerFlag: boolean = false): string {
+    let BaseUrlPath = `https://www.axilcorps.com/bot/dn/api`;
+    if (isLocalServerFlag) {
+      BaseUrlPath = `${environment.baseUrl}api`;
+    }
 
 
     switch(this.serviceName) {
       case SERVICE.AUTH:
-        //return `${BaseUrlPath}/${SERVICE.AUTH}/${Url}`;
-        return `${localBaseUrlPath}/${SERVICE.AUTH}/${Url}`;
+        return `${BaseUrlPath}/${SERVICE.AUTH}/${Url}`;
       case SERVICE.CORE:
-        //return `${BaseUrlPath}/${SERVICE.AUTH}/${Url}`;
-        return `${localBaseUrlPath}/${SERVICE.CORE}/${Url}`;
+        return `${BaseUrlPath}/${SERVICE.CORE}/${Url}`;
       default:
         throw "Not found";
     }
