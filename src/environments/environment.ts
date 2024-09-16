@@ -6,7 +6,7 @@ export const environment = {
   production: false,
   env: "local",
 
-  baseUrl: "http://localhost:8090/",
+  baseUrl: "http://localhost:8090",
 
   FolderDelimiter: "\\"
 };

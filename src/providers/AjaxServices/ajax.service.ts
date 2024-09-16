@@ -21,7 +21,6 @@ export class AjaxService {
 
   public GetImageBasePath() {
     let ImageBaseUrl = environment.baseUrl.replace('/core/api', '/Files');
-    //  let ImageBaseUrl = ("https://www.axilcorps.com/bot/dn/").replace("/core/api", "/Files");
     ImageBaseUrl = ImageBaseUrl + 'Files/';
     return ImageBaseUrl;
   }
@@ -215,9 +214,9 @@ export class AjaxService {
   }
 
   getServiceUrl(Url: string, isLocalServerFlag: boolean = false): string {
-    let BaseUrlPath = `https://www.axilcorps.com/bot/dn/api`;
+    let BaseUrlPath = `${environment.baseUrl}/bot/ac/api`;
     if (isLocalServerFlag) {
-      BaseUrlPath = `${environment.baseUrl}api`;
+      BaseUrlPath = `${environment.baseUrl}/api`;
     }
 
 
