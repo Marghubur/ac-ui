@@ -35,6 +35,6 @@ jobs:
         image: istiyaqmi9/axilcorps-ui
         tags: latest
         registry: docker.io
-        dockerfile: Dockerfile-prod
+        dockerfile: Dockerfile
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}    
