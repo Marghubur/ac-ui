@@ -1,0 +1,37 @@
+.t-row {
+    border-radius: 4px !important;
+  }
+
+  .t-head {
+    height: 4rem !important;
+    border-radius: 4px !important;
+  }
+
+  .preload {
+    height: calc(100vh - var(--navbar-height) - 4rem) !important;
+    overflow: hidden;
+
+    .skeleton {
+      animation: skeleton-loading 1s linear infinite alternate;
+    }
+
+    .circular {
+      border-radius: 50% !important;
+      width: 2vw;
+      height: 2vw;
+    }
+
+    @keyframes skeleton-loading {
+      0% {
+        background-color: hsl(200, 20%, 70%);
+      }
+
+      100% {
+        background-color: hsl(200, 20%, 95%);
+      }
+    }
+
+    .vhide {
+      visibility: hidden;
+    }
+  }

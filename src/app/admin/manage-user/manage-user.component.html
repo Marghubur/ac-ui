@@ -1,0 +1,113 @@
+<div class="col-12 full-v main-container">
+  <div class="content-header">
+    <div class="col-8">
+      <div class="px-1">
+        <app-breadcrums [title]="'Manage user detail'"></app-breadcrums>
+      </div>
+    </div>
+  </div>
+
+  <div class="x_panel">
+    @if (isPageReady) {
+      <form [formGroup]="userForm">
+        <div class="row mt-3">
+          <div class="col-md-3 ps-4">
+            <div class="x_header_title position-relative">
+              <div class="img-container-sq" (change)="uploadProfilePicture($event)">
+                <div class="img-container__box">
+                  @if (isCameraOpen) {
+                    <div>
+                      <video #videoElement autoplay></video>
+                      <button type="button" class="btn btn-primary-c" (click)="capturePhoto()">Capture Photo</button>
+                    </div>
+                  } @else {
+                    <img [src]="profileURL" alt="User" />
+                  }
+                  <input type="file" id="uploadocument" class="d-none" accept=".jpg, .jpeg, .png" formControlName="ProfileImgPath"/>
+                  <div class="img-container__btn mt-2">
+                    <button class="btn btn-outline-success form-control" (click)="fireBrowserFile()" >
+                      Browse
+                    </button>
+                    <button class="btn btn-outline-primary form-control mt-2" (click)="openCamera()">
+                      Open Webcam
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">First Name <span class="text-danger">*</span></label>
+                <input class="form-control" placeholder="First Name" maxlength="40" (input)="inputToUppercase($event)"
+                  [ngClass]="{'error-field': isSubmitted && f['firstName'].errors !== null && f['firstName'].errors['required']}"
+                  formControlName="firstName"/>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Last Name <span class="text-danger">*</span></label>
+                <input class="form-control" placeholder="Last Name" maxlength="40" (input)="inputToUppercase($event)"
+                  [ngClass]="{'error-field': isSubmitted && f['lastName'].errors !== null && f['lastName'].errors['required']}"
+                  formControlName="lastName"/>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Mobile Number <span class="text-danger">*</span></label>
+                <input type="number" class="form-control" placeholder="First Name" OnlyNumber="10" (input)="inputToUppercase($event)"
+                  [ngClass]="{'error-field': isSubmitted && f['mobileNumber'].errors !== null && f['mobileNumber'].errors['required']}"
+                  formControlName="mobileNumber"/>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Alternate Number</label>
+                <input class="form-control" placeholder="Alternate Number" OnlyNumber="10" formControlName="alternateNumber"/>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Email Id</label>
+                <input type="email" class="form-control" placeholder="Email Id" maxlength="90" formControlName="emailId"/>
+              </div>
+              <div class="col-md-4 mb-3">
+                <label class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                <form class="form-inline">
+                  <div class="form-group w-100">
+                    <div class="input-group inline-calendar w-100"
+                      [ngClass]="{'error-field': isSubmitted && f['dob'].errors !== null && f['dob'].errors['required']}">
+                      <input class="form-control" placeholder="yyyy-mm-dd" name="dp"
+                        [(ngModel)]="model" (dateSelect)="onDateSelection($event)"
+                        ngbDatepicker [minDate]="{ year: 1970, month: 1, day: 1 }" [maxDate]="minDate" #d="ngbDatepicker"/>
+                      <div class="input-group-append">
+                        <button class="btn calendar" (click)="d.toggle()" type="button" >
+                          <i class="fa-regular fa-calendar-days fa-lg" aria-hidden="true"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <div class="col-md-12">
+                  <label class="form-label">Account Number</label>
+                  <input type="text" formControlName="accountId" readonly class="form-control">
+                </div>
+                <div class="col-md-12 mt-2">
+                  <label class="form-label">Reference By</label>
+                  <input type="text" class="form-control" placeholder="Reference By">
+                </div>
+              </div>
+              <div class="col-md-8">
+                <label class="form-label">Address <span class="text-danger">*</span></label>
+                <textarea rows="4" class="form-control" formControlName="address" placeholder="Full Address"
+                [ngClass]="{'error-field': isSubmitted && f['address'].errors !== null && f['address'].errors['required']}"></textarea>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="mt-2 text-end">
+          <button class="btn btn-success"(click)="saveUser()">Save</button>
+        </div>
+      </form>
+    }
+  </div>
+</div>

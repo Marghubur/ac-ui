@@ -1,0 +1,18 @@
+<div class="col-md-12 grid-margin stretch-card mb-2">
+  <div class="card rounded">
+    <div class="card-body">
+      <ng-container *ngIf="cardTitle != null">
+        <h4 class="card-title card-title-dash mb-4">{{cardTitle}}</h4>
+      </ng-container>
+      <ng-container *ngIf="loading">
+        <!-- <div class="text-center mb-3">
+          <i class="fa-solid fa-spinner fa-spin fa-3x text-dark"></i>
+        </div> -->
+        <!-- <page-placeholder [shape]="1" [matrix]="[41.2]"></page-placeholder> -->
+      </ng-container>
+      <ng-container *ngIf="!loading">
+        <ng-content></ng-content>
+      </ng-container>
+    </div>
+  </div>
+</div>

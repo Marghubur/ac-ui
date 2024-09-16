@@ -1,0 +1,25 @@
+@if (redirect != '') {
+  <button [ngClass]="className" class="fw-semibold" routerLink={{redirect}} [disabled]="isLoading">
+    @if (!isLoading) {
+      @if (icon != '') {
+        <i class="{{icon}} pe-1"></i>
+      }
+      {{text}}
+    } @else {
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <span class="ps-1">wait..</span>
+    }
+  </button>
+} @else {
+  <button [ngClass]="className" class="fw-semibold" (click)="handleClick()" [disabled]="isLoading">
+    @if (!isLoading) {
+      @if (icon != '') {
+        <i class="{{icon}} pe-1"></i>
+      }
+      {{text}}
+    } @else {
+      <i class="fa-solid fa-spinner fa-spin"></i>
+      <span class="ps-1">wait..</span>
+    }
+  </button>
+}
