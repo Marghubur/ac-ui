@@ -214,7 +214,7 @@ export class AjaxService {
   }
 
   getServiceUrl(Url: string, isLocalServerFlag: boolean = false): string {
-    let BaseUrlPath = `${environment.baseUrl}/bot/ac/api`;
+    let BaseUrlPath = `${environment.baseUrl}/api`;
     if (isLocalServerFlag) {
       BaseUrlPath = `${environment.baseUrl}/api`;
     }
