@@ -20,7 +20,7 @@ export class AjaxService {
   }
 
   public GetImageBasePath() {
-    let ImageBaseUrl = environment.baseUrl.replace('/core/api', '/Files');
+    let ImageBaseUrl = environment.baseUrl.replace('/api', '/Files');
     ImageBaseUrl = ImageBaseUrl + 'Files/';
     return ImageBaseUrl;
   }
@@ -215,10 +215,6 @@ export class AjaxService {
 
   getServiceUrl(Url: string, isLocalServerFlag: boolean = false): string {
     let BaseUrlPath = `${environment.baseUrl}/api`;
-    if (isLocalServerFlag) {
-      BaseUrlPath = `${environment.baseUrl}/api`;
-    }
-
 
     switch(this.serviceName) {
       case SERVICE.AUTH:
