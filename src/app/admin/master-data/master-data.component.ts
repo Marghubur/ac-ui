@@ -35,7 +35,14 @@ export class MasterDataComponent implements OnInit {
   }
 
   getEmployeeSampleFile() {
-
+    let sampleFilePath = "https://www.bottomhalf.in/bts/resources/applications/axil/axilcorps.xlsx";
+    const a = document.createElement('a');
+    a.href = sampleFilePath;
+    a.download = 'EmployeeRecordSample.xlsx';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    window.URL.revokeObjectURL(sampleFilePath);
   }
 
   excelfireBrowserFile() {
