@@ -1,0 +1,10 @@
+.cell-wrapper {
+    padding-left: .6rem;
+    padding-right: .6rem;
+}
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #e9ecef !important;
+    opacity: 1 !important;
+}
+  

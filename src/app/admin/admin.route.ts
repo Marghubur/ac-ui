@@ -1,5 +1,5 @@
 import { Route } from "@angular/router";
-import { Dashboard, InitialInvestment, ManageUser, MasterData, User } from "../../providers/constants";
+import { Dashboard, InitialInvestment, ManageUser, MasterData, User, UserInvestment } from "../../providers/constants";
 
 export const Admin_Route: Route[] = [
   { path: "",  loadComponent: () => import('../admin/home/home.component').then(c => c.HomeComponent) },
@@ -8,4 +8,5 @@ export const Admin_Route: Route[] = [
   { path: MasterData , loadComponent: () => import("../admin/master-data/master-data.component").then(c => c.MasterDataComponent)},
   { path: User, loadComponent: () => import("../admin/user/user.component").then(c => c.UserComponent)},
   { path: ManageUser, loadComponent: () => import("../admin/manage-user/manage-user.component").then(c => c.ManageUserComponent)},
+  { path: UserInvestment, loadComponent: () => import("../admin/user-investment/user-investment.component").then(c => c.UserInvestmentComponent)},
 ];

@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { AllownumberDirective } from '../../util/directives/allownumber.directive';
 import { CommonModule } from '@angular/common';
 import { iNavigation } from '../../../providers/iNavigation';
-import { ManageUser } from '../../../providers/constants';
+import { ManageUser, UserInvestment } from '../../../providers/constants';
 
 @Component({
   selector: 'app-user',
@@ -120,8 +120,8 @@ export class UserComponent implements OnInit {
       delimiter = "and";
     }
 
-    if(this.userDetail.name !== null && this.userDetail.name !== "") {
-      this.userData.searchString += ` 1=1 and firstName like '%${this.userDetail.name}%' or lastName like '%${this.userDetail.name}%'`;
+    if(this.userDetail.firstName !== null && this.userDetail.firstName !== "") {
+      this.userData.searchString += ` 1=1 and firstName like '%${this.userDetail.firstName}%' or lastName like '%${this.userDetail.firstName}%'`;
       delimiter = "and";
     }
 
@@ -189,6 +189,10 @@ export class UserComponent implements OnInit {
 
   editUser(user: user) {
     this.nav.navigate(ManageUser, user);
+  }
+
+  viewInvestment(user: user) {
+    this.nav.navigate(UserInvestment, user);
   }
 }
 

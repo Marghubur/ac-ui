@@ -5,7 +5,7 @@ import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component'
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { AllownumberDirective } from '../../util/directives/allownumber.directive';
 import { CommonModule } from '@angular/common';
-import { ErrorToast } from '../../../providers/common-service/common.service';
+import { ErrorToast, ToLocateDate } from '../../../providers/common-service/common.service';
 import { autoCompleteModal, IautocompleteComponent, pairData } from '../../util/iautocomplete/iautocomplete.component';
 import { Filter } from '../../../providers/userService';
 import { CoreHttpService } from '../../../providers/AjaxServices/core-http.service';
@@ -33,7 +33,8 @@ export class InitialInvestmentComponent implements OnInit {
     totalPayableAmount: 0,
     payableAmountToOffice: 0,
     emiStartDate: null,
-    userId: 0
+    userId: 0,
+    percentage: null
   };
   isLoading: boolean = false;
   isSubmitted: boolean = false;
@@ -44,9 +45,11 @@ export class InitialInvestmentComponent implements OnInit {
     investmentId: 0,
     months: 0,
     paymentDate: null,
-    profitAmount: 0,
+    profitAmount: null,
     totalPayableAmount: 0,
-    scheme: null
+    scheme: null,
+    principalAmount: null,
+    totalProfitAmount: null
   };
   model: NgbDateStruct;
   paymentModel: NgbDateStruct;
@@ -65,7 +68,8 @@ export class InitialInvestmentComponent implements OnInit {
     lastName: "",
     emiEndDate: null,
     depositDate: null,
-    userId: 0
+    userId: 0,
+    percentage: null
   };
   customerInvestmentDetail: Investment = {
     addOn: 0,
@@ -78,7 +82,8 @@ export class InitialInvestmentComponent implements OnInit {
     scheme: null,
     totalProfitAmount: null,
     firstName: "",
-    lastName: ""
+    lastName: "",
+    principalAmount: null
   };
   userId: number = 0;
   autoCompleteModal: autoCompleteModal = new autoCompleteModal();
@@ -110,7 +115,8 @@ export class InitialInvestmentComponent implements OnInit {
       totalPayableAmount: new FormControl(this.inventoryDetail.totalPayableAmount),
       payableAmountToOffice: new FormControl(this.inventoryDetail.payableAmountToOffice),
       emiStartDate: new FormControl(this.inventoryDetail.emiStartDate, [Validators.required]),
-      emiEndDate: new FormControl(this.inventoryDetail.emiEndDate)
+      emiEndDate: new FormControl(this.inventoryDetail.emiEndDate),
+      percentage: new FormControl(this.inventoryDetail.percentage, [Validators.required])
     })
   }
 
@@ -130,7 +136,8 @@ export class InitialInvestmentComponent implements OnInit {
   }
 
   private calculatePaybleOfficeAmount(amount: number) {
-    let payableAmount = amount * 0.70;
+    let percentage = Number(this.inventoryForm.get("percentage").value);
+    let payableAmount = amount * percentage;
     this.inventoryForm.get("payableAmountToOffice").setValue(payableAmount);
   }
 
@@ -164,6 +171,9 @@ export class InitialInvestmentComponent implements OnInit {
         this.customerInventoryDetail.lastName = this.selectedUser.lastName;
         this.customerInventoryDetail.depositDate = res.ResponseBody.createdOn;
         this.customerInventoryDetail.payableAmountToOffice = value.payableAmountToOffice;
+        this.customerInventoryDetail.emiStartDate = ToLocateDate(this.customerInventoryDetail.emiStartDate);
+        this.customerInventoryDetail.emiEndDate = ToLocateDate(this.customerInventoryDetail.emiEndDate);
+        this.customerInventoryDetail.depositDate = ToLocateDate(this.customerInventoryDetail.depositDate);
         this.isLoading = false;
         this.isSubmitted = false;
       }
@@ -196,7 +206,8 @@ export class InitialInvestmentComponent implements OnInit {
       totalPayableAmount: 0,
       payableAmountToOffice: 0,
       emiStartDate: null,
-      userId: 0
+      userId: 0,
+      percentage: null
     };
     this.customerInventoryDetail = {
       inventoryId: 0,
@@ -212,7 +223,8 @@ export class InitialInvestmentComponent implements OnInit {
       firstName: "",
       lastName: "",
       emiEndDate: null,
-      userId: 0
+      userId: 0,
+      percentage: null
     };
     this.initinventoryForm();
   }
@@ -226,7 +238,9 @@ export class InitialInvestmentComponent implements OnInit {
       months: new FormControl(this.investmentDetail.months),
       paymentDate: new FormControl(this.investmentDetail.paymentDate, [Validators.required]),
       totalPayableAmount: new FormControl(this.investmentDetail.totalPayableAmount),
-      scheme: new FormControl(this.investmentDetail.scheme, [Validators.required])
+      scheme: new FormControl(this.investmentDetail.scheme, [Validators.required]),
+      totalProfitAmount: new FormControl(this.investmentDetail.totalProfitAmount, [Validators.required]),
+      principalAmount: new FormControl(this.investmentDetail.principalAmount, [Validators.required]),
     })
   }
 
@@ -254,7 +268,8 @@ export class InitialInvestmentComponent implements OnInit {
       scheme: null,
       totalProfitAmount: null,
       firstName: "",
-      lastName: ""
+      lastName: "",
+      principalAmount: null,
     }
 
     this.customerInvestmentDetail = this.investmentForm.value;
@@ -272,9 +287,11 @@ export class InitialInvestmentComponent implements OnInit {
       investmentId: 0,
       months: 0,
       paymentDate: null,
-      profitAmount: 0,
+      profitAmount: null,
       totalPayableAmount: 0,
-      scheme: null
+      scheme: null,
+      principalAmount: null,
+      totalProfitAmount: null
     };
     this.customerInvestmentDetail = {
       addOn: 0,
@@ -287,7 +304,8 @@ export class InitialInvestmentComponent implements OnInit {
       scheme: null,
       totalProfitAmount: null,
       firstName: "",
-      lastName: ""
+      lastName: "",
+      principalAmount: null,
     }
     this.initInvestmentForm();
     this.userId = 0;
@@ -298,12 +316,8 @@ export class InitialInvestmentComponent implements OnInit {
     let value = Number(e.target.value);
     if (value == 1) {
       this.investmentForm.get("months").setValue(20);
-      this.investmentForm.get("profitAmount").setValue(12000);
-      this.investmentForm.get("totalPayableAmount").setValue(12000 * 20);
     } else {
       this.investmentForm.get("months").setValue(14);
-      this.investmentForm.get("profitAmount").setValue(14000);
-      this.investmentForm.get("totalPayableAmount").setValue(14000 * 14);
     }
   }
 
@@ -349,6 +363,18 @@ export class InitialInvestmentComponent implements OnInit {
   printCustomerSlip() {
     window.print();
   }
+
+  calculateTotalProfitAmount() {
+    let profitAmt = this.investmentForm.get("profitAmount").value;
+    let addon = this.investmentForm.get("addOn").value;
+    let principalAmt = this.investmentForm.get("principalAmount").value;
+
+    let totalProfitAmt = Number(profitAmt) + Number(addon) + Number(principalAmt);
+    this.investmentForm.get("totalProfitAmount").setValue(totalProfitAmt);
+
+    let month =  Number(this.investmentForm.get("months").value);
+    this.investmentForm.get("totalPayableAmount").setValue(totalProfitAmt * month);
+  }
 }
 
 interface Inventory {
@@ -368,6 +394,7 @@ interface Inventory {
   accountId?: string;
   depositDate?: Date;
   userId: number;
+  percentage: number
 }
 
 interface Investment {
@@ -382,5 +409,6 @@ interface Investment {
   firstName?: string;
   lastName?: string;
   accountId?: string;
-  totalProfitAmount?: number;
+  totalProfitAmount: number;
+  principalAmount: number;
 }

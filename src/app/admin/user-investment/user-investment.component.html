@@ -1,0 +1,429 @@
+<div class="col-md-12 main-container">
+    <div class="content-header">
+      <div class="col-6 d-flex">
+        <div class="col-auto px-1">
+          <app-breadcrums [title]="'User Investment'"></app-breadcrums>
+        </div>
+      </div>
+      <div class="col-6 d-fex text-end">
+      </div>
+    </div>
+  
+    <div class="x_panel">
+      <div class="x_content">
+        <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+                <button ngbNavLink (click)="loadInventoryData()">Product Detail</button>
+                <ng-template ngbNavContent>
+                    <div class="t-table t-list col-md-12">
+                        <div class="t-head">
+                          <div class="tr">
+                            <div class="th fe-index">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    #
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Product Name
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Emi Amount
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Month
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Down Payment
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    EMI Start Date
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    EMI End Date
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Loan Amount
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Payable Amount
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Deposit Date
+                                </div>
+                            </div>
+                            <div class="th fe-index">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Action
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="t-body">
+                            @if (this.inventoryDetail.length > 0) {
+                                @for (item of inventoryDetail; track $index) {
+                                    <div class="tr py-2">
+                                        <div class="td fe-index">
+                                            <div class="cell-wrapper">
+                                                {{$index + 1}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.inventoryName}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.emiAmount | number : '1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.months | number:'2.0'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.downPayment | number : '1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.emiStartDate | date}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.emiEndDate | date}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.loanAmount | number : '1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.totalPayableAmount | number : '1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.depositDate | date}}
+                                            </div>
+                                        </div>
+                                        <div class="td fe-index">
+                                            <div class="cell-wrapper">
+                                                <a href="javascript:void(0)" (click)="viewInventory(item)">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            } @else {
+                                <app-bt-record-not-found></app-bt-record-not-found>
+                            }
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+                <button ngbNavLink (click)="loadInvestmentData()">Investment Detail</button>
+                <ng-template ngbNavContent>
+                    <div class="t-table t-list col-md-12">
+                        <div class="t-head">
+                          <div class="tr">
+                            <div class="th fe-index">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    #
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Investment Amount
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Principal Amount
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Profit Amount
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Month
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Total Profit
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Investment Date
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Ist Payment Date
+                                </div>
+                            </div>
+                            <div class="th">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Last Payment Date
+                                </div>
+                            </div>
+                            <div class="th fe-index">
+                                <div class="cell-wrapper fw-bold text-primary-dc">
+                                    Action
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="t-body">
+                            @if (this.investmentDetail.length > 0) {
+                                @for (item of investmentDetail; track $index) {
+                                    <div class="tr py-2">
+                                        <div class="td fe-index">
+                                            <div class="cell-wrapper">
+                                                {{$index + 1}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.investmentAmount | number : '1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.principalAmount | number : '1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.profitAmount | number : '1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.months | number:'2.0'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.totalProfitAmount | number:'1.2-2'}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.investmentDate | date}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.istPaymentDate | date}}
+                                            </div>
+                                        </div>
+                                        <div class="td">
+                                            <div class="cell-wrapper">
+                                                {{item.lastPaymentDate | date}}
+                                            </div>
+                                        </div>
+                                        <div class="td fe-index">
+                                            <div class="cell-wrapper">
+                                                <a href="javascript:void(0)" (click)="viewInvestment(item)">
+                                                    <i class="fa-regular fa-eye"></i>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+                            } @else {
+                                <app-bt-record-not-found></app-bt-record-not-found>
+                            }
+                        </div>
+                    </div>
+                </ng-template>
+            </li>
+        </ul>
+        
+        <div [ngbNavOutlet]="nav" class="mt-2"></div>
+      </div>
+    </div>
+</div>
+
+<!-- Inventory Customer Copy -->
+<div class="modal fade"  data-bs-backdrop="static" data-bs-keyboard="false" id="InventoryCustomerViewModal" tabindex="-1" aria-labelledby="InventoryCustomerViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="modal-header border-bottom-0">
+          <h1 class="modal-title fs-5" id="InventoryCustomerViewModalLabel">Customer Copy</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          @if (customerInventoryDetail.firstName != null && customerInventoryDetail.firstName != "") {
+            <div class="x_panel_body">
+              <div class="row mt-3">
+                <div class="col-md-6 d-flex align-items-center">
+                  <label class="form-label pe-2 fw-bold text-dark">A/C No.: </label>
+                  <div class="col-auto">
+                    <input class="form-control fw-bold" type="text" readonly [value]="customerInventoryDetail.accountId">
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Name of Customer</label>
+                  <input class="form-control" [value]="customerInventoryDetail.firstName + ' ' + customerInventoryDetail.lastName" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Your Payable Amount to Office</label>
+                  <input class="form-control" [value]="customerInventoryDetail.payableAmountToOffice | number:'1.2-2'" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Four-Wheeler's Name</label>
+                  <input class="form-control" [value]="customerInventoryDetail.inventoryName" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Deposit Date</label>
+                  <input class="form-control" [value]="customerInventoryDetail.depositDate | date" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">EMI Starting Date</label>
+                  <input class="form-control" [value]="customerInventoryDetail.emiStartDate | date" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">EMI Ending Date</label>
+                  <input class="form-control" [value]="customerInventoryDetail.emiEndDate | date" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">EMI Amount</label>
+                  <input class="form-control" [value]="customerInventoryDetail.emiAmount | number:'1.2-2'" type="text" readonly>
+                </div>
+              </div>
+            </div>
+          }
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary-c" (click)="printCustomerSlip()"><i class="fa-solid fa-print pe-1"></i>Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Investment Customer Copy -->
+<div class="modal fade"  data-bs-backdrop="static" data-bs-keyboard="false" id="InvestmentViewCustomerModal" tabindex="-1" aria-labelledby="InvestmentViewCustomerModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+      <div class="modal-content p-3">
+        <div class="modal-header border-bottom-0">
+          <h1 class="modal-title fs-5" id="InvestmentViewCustomerModalLabel">Customer Copy</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          @if (customerInvestmentDetail.firstName != null && customerInvestmentDetail.firstName != "") {
+            <div class="x_panel_body">
+              <div class="row mt-3">
+                <div class="col-md-6 d-flex align-items-center">
+                  <label class="form-label pe-2 fw-bold text-dark">A/C No.: </label>
+                  <div class="col-auto">
+                    <input class="form-control fw-bold" type="text" readonly [value]="customerInvestmentDetail.accountId">
+                  </div>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Name of Customer</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.firstName + ' ' + customerInvestmentDetail.lastName" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Investment Amount</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.investmentAmount | number:'1.2-2'" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Investment Period (month)</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.months | number:'2.0'" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Principal Amount</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.principalAmount | number:'1.2-2'" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Profit Amount</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.profitAmount | number:'1.2-2'" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Total Payment </label>
+                  <input class="form-control" [value]="customerInvestmentDetail.totalProfitAmount | number:'1.2-2'" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Total Profit Amount</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.totalProfitAmount | number:'1.2-2'" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Investment Date</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.investmentDate | date" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">1st Payment Date</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.istPaymentDate | date" type="text" readonly>
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label">Last Payment Date</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.lastPaymentDate | date" type="text" readonly>
+                </div>
+              </div>
+              <div class="row mt-3">
+                <div class="col-md-6">
+                  <label class="form-label">Add On</label>
+                  <input class="form-control" [value]="customerInvestmentDetail.addOn | number:'1.2-2'" type="text" readonly>
+                </div>
+              </div>
+              <p class="mt-3 text-danger">* Term & Conditions: </p>
+            </div>
+          }
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary-c" (click)="printCustomerSlip()"><i class="fa-solid fa-print pe-1"></i>Print</button>
+        </div>
+      </div>
+    </div>
+  </div>
