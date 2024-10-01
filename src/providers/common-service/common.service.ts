@@ -622,6 +622,8 @@ export function GetStatus(id: number): string {
 export function convertToUppercase(event: Event): void {
   const inputElement = event.target as HTMLInputElement;
   inputElement.value = inputElement.value.toUpperCase();
+  
+  inputElement.dispatchEvent(new Event('input'));
 }
 
 export class UserDetail {

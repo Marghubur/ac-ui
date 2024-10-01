@@ -32,10 +32,10 @@
             <div class="th fe-5">
               <div class="cell-wrapper">
                 <input class="form-control form-control-sm" (keydown.esc)="resetFilter()" maxlength="12"
-                  (keyup.enter)="filterRecords(employeeinputElement)" #employeeinputElement [(ngModel)]="userDetail.name"
+                  (keyup.enter)="filterRecords(employeeinputElement)" #employeeinputElement [(ngModel)]="userDetail.firstName"
                   placeholder="Search by Name" id="namefilter">
                 <div class="t-filter" (click)="arrangeDetails(orderByNameAsc, 'firstName')">
-                  <a href="javascript:void()" class="pe-2">Full Name</a>
+                  <a href="javascript:void(0)" class="pe-2">Full Name</a>
                   <i class="fa-solid fa-arrow-down-wide-short"
                     [ngClass]="{'d-none': orderByNameAsc == null || !orderByNameAsc }" aria-hidden="true"></i>
                   <i class="fa-solid fa-arrow-down-short-wide"
@@ -45,11 +45,11 @@
             </div>
             <div class="th fe-2">
               <div class="cell-wrapper">
-                <input class="form-control  form-control-sm" (keyup.enter)="filterRecords(mobileInputElement)" type="number"
-                  (keydown.esc)="resetFilter()" [(ngModel)]="userDetail.mobileNumber" maxlength="10" min="0"
+                <input class="form-control  form-control-sm" (keyup.enter)="filterRecords(mobileInputElement)" type="text"
+                  (keydown.esc)="resetFilter()" [(ngModel)]="userDetail.mobileNumber" [OnlyNumber]="10"
                   placeholder="Search by MobileNumber" #mobileInputElement (input)="getOnlyPositiveNUmber($event)">
                 <div class="t-filter" (click)="arrangeDetails(orderByMobileAsc, 'mobileNumber')">
-                  <a href="javascript:void()" class="pe-2">Mobile Number</a>
+                  <a href="javascript:void(0)" class="pe-2">Mobile Number</a>
                   <i class="fa-solid fa-arrow-down-wide-short"
                     [ngClass]="{'d-none': orderByMobileAsc == null || !orderByMobileAsc }" aria-hidden="true"></i>
                   <i class="fa-solid fa-arrow-down-short-wide"
@@ -62,7 +62,7 @@
                 <input class="form-control  form-control-sm" (keyup.enter)="filterRecords(emailInputElement)" type="email" maxlength="10"
                   (keydown.esc)="resetFilter()" [(ngModel)]="userDetail.emailId" placeholder="Search by Email" #emailInputElement>
                 <div class="t-filter" (click)="arrangeDetails(orderByAccountAsc, 'accountId')">
-                  <a href="javascript:void()" class="pe-2">Account No.</a>
+                  <a href="javascript:void(0)" class="pe-2">Account No.</a>
                   <i class="fa-solid fa-arrow-down-wide-short"
                     [ngClass]="{'d-none': orderByAccountAsc == null || !orderByAccountAsc }" aria-hidden="true"></i>
                   <i class="fa-solid fa-arrow-down-short-wide"
@@ -72,11 +72,6 @@
             </div>
             <div class="th fe-1 text-center">
               <div class="cell-wrapper">
-                <!-- <a href="{{downlodexcelFilePath}}" class="d-none" id="downloadexistingfiled"></a>
-                <a href="javascript:void(0)" class="text-success ms-3" (click)="exportData(2)"
-                  data-bs-toggle="tooltip" data-bs-placement="right" title="export as excel">
-                  <i class="fa-regular fa-file-excel fa-lg"></i>
-                </a> -->
                 <div>ACTIONS</div>
               </div>
             </div>
@@ -113,14 +108,20 @@
               </div>
               <div class="td align-middle fe-1">
                 <div class="d-flex flex-row justify-content-evenly">
-                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="editUser(user)"
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="View Files">
-                    <span class="badge bg-primary"><i class="fa-solid fa-pencil" aria-hidden="true"></i></span>
+                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="editUser(user)" data-bs-toggle="tooltip" data-bs-placement="right" title="Edit Account">
+                    <span class="badge bg-primary">
+                      <i class="fa-solid fa-pencil" aria-hidden="true"></i>
+                    </span>
                   </a>
-                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}"
-                    data-bs-toggle="tooltip" data-bs-placement="right" title="View Documents">
-                    <span class="badge bg-danger"><i class="fa-solid fa-trash-alt"
-                        aria-hidden="true"></i></span>
+                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="viewInvestment(user)" data-bs-toggle="tooltip" data-bs-placement="right" title="View Investment">
+                    <span class="badge bg-dark">
+                      <i class="fa-solid fa-sack-dollar"></i>
+                    </span>
+                  </a>
+                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Account">
+                    <span class="badge bg-danger">
+                      <i class="fa-solid fa-trash-alt" aria-hidden="true"></i>
+                    </span>
                   </a>
                 </div>
               </div>

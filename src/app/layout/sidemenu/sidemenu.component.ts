@@ -1,13 +1,10 @@
 import { Component, OnInit, Output, EventEmitter, AfterViewChecked, ElementRef } from "@angular/core";
 import * as bootstrap from 'bootstrap';
 import packageJson from '../../../../package.json';
-import { ResponseModel } from "../../../auth/jwtService";
-import { CoreHttpService } from "../../../providers/AjaxServices/core-http.service";
-import { ApplicationStorage } from "../../../providers/ApplicationStorage";
 import { UserDetail, CommonService, ErrorToast, Toast } from "../../../providers/common-service/common.service";
 import { iNavigation } from "../../../providers/iNavigation";
 import { UserService } from "../../../providers/userService";
-import { AccessTokenExpiredOn, Dashboard, InitialInvestment, Login, MasterData, User} from "../../../providers/constants";
+import { Dashboard, InitialInvestment, Login, MasterData, User} from "../../../providers/constants";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
 
@@ -105,7 +102,7 @@ export class SidemenuComponent implements OnInit, AfterViewChecked {
         {
           Link: User,
           Icon: "fa-solid fa-id-card",
-          Catagory: "User"
+          Catagory: "Open Account"
         },
         {
           Link: InitialInvestment,

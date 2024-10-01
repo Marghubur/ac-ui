@@ -44,10 +44,17 @@
                           <input type="number" class="form-control" formControlName="onRoadPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
                           [ngClass]="{'error-field': isSubmitted && f.onRoadPrice.errors !== null && f.onRoadPrice.errors.required}">
                         </div>
-                        <div class="col-md-6">
-                          <label class="form-label">No. of Months <span class="text-danger">*</span></label>
-                          <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
-                          [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                        <div class="col-md-6 row">
+                          <div class="col-md-6">
+                            <label class="form-label">No. of Months <span class="text-danger">*</span></label>
+                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
+                            [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Percentage <span class="text-danger">*</span></label>
+                            <input type="number" OnlyNumber="2" class="form-control" formControlName="percentage" placeholder="Percentage"
+                            [ngClass]="{'error-field': isSubmitted && f.percentage.errors !== null && f.percentage.errors.required}">
+                          </div>
                         </div>
                       </div>
                       <div class="row mt-3">
@@ -185,10 +192,17 @@
                           <input type="number" class="form-control" formControlName="onRoadPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
                           [ngClass]="{'error-field': isSubmitted && f.onRoadPrice.errors !== null && f.onRoadPrice.errors.required}">
                         </div>
-                        <div class="col-md-6">
-                          <label class="form-label">No. of Months <span class="text-danger">*</span></label>
-                          <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
-                          [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                        <div class="col-md-6 row">
+                          <div class="col-md-6">
+                            <label class="form-label">No. of Months <span class="text-danger">*</span></label>
+                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
+                            [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Percentage <span class="text-danger">*</span></label>
+                            <input type="number" OnlyNumber="2" class="form-control" formControlName="percentage" placeholder="Percentage"
+                            [ngClass]="{'error-field': isSubmitted && f.percentage.errors !== null && f.percentage.errors.required}">
+                          </div>
                         </div>
                       </div>
                       <div class="row mt-3">
@@ -326,10 +340,17 @@
                           <input type="number" class="form-control" formControlName="onRoadPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
                           [ngClass]="{'error-field': isSubmitted && f.onRoadPrice.errors !== null && f.onRoadPrice.errors.required}">
                         </div>
-                        <div class="col-md-6">
-                          <label class="form-label">No. of Months <span class="text-danger">*</span></label>
-                          <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
-                          [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                        <div class="col-md-6 row">
+                          <div class="col-md-6">
+                            <label class="form-label">No. of Months <span class="text-danger">*</span></label>
+                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
+                            [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                          </div>
+                          <div class="col-md-6">
+                            <label class="form-label">Percentage <span class="text-danger">*</span></label>
+                            <input type="number" OnlyNumber="2" class="form-control" formControlName="percentage" placeholder="Percentage"
+                            [ngClass]="{'error-field': isSubmitted && f.percentage.errors !== null && f.percentage.errors.required}">
+                          </div>
                         </div>
                       </div>
                       <div class="row mt-3">
@@ -467,8 +488,20 @@
                       </div>
                       <div class="row mt-3">
                         <div class="col-md-6">
+                          <label class="form-label">Principal Amount <span class="text-danger">*</span></label>
+                          <input type="number" [OnlyNumber]="10" class="form-control" formControlName="principalAmount" placeholder="Principal Amount"  (input)="calculateTotalProfitAmount()"
+                            [ngClass]="{'error-field': isSubmitted && m.principalAmount.errors !== null && m.principalAmount.errors.required}">
+                        </div>
+                        <div class="col-md-6">
+                          <label class="form-label">Profit Amount <span class="text-danger">*</span></label>
+                          <input type="number" [OnlyNumber]="10" class="form-control" formControlName="profitAmount" placeholder="Profit Amount"  (input)="calculateTotalProfitAmount()"
+                            [ngClass]="{'error-field': isSubmitted && m.profitAmount.errors !== null && m.profitAmount.errors.required}">
+                        </div>
+                      </div>
+                      <div class="row mt-3">
+                        <div class="col-md-6">
                           <label class="form-label">Add On <span class="text-danger">*</span></label>
-                          <input type="number" [OnlyNumber]="10" class="form-control" formControlName="addOn" placeholder="Add Ont"
+                          <input type="number" [OnlyNumber]="10" class="form-control" formControlName="addOn" placeholder="Add Ont" (input)="calculateTotalProfitAmount()"
                             [ngClass]="{'error-field': isSubmitted && m.addOn.errors !== null && m.addOn.errors.required}">
                         </div>
                         <div class="col-md-6">
@@ -488,8 +521,8 @@
                       </div>
                       <div class="row mt-3">
                         <div class="col-md-6">
-                          <label class="form-label">Profit Amount</label>
-                          <input type="number" class="form-control" readonly formControlName="profitAmount" placeholder="Profit Amount">
+                          <label class="form-label">Total Profit Amount</label>
+                          <input type="number" class="form-control" readonly formControlName="totalProfitAmount" placeholder="Total Profit Amount">
                         </div>
                         <div class="col-md-6">
                           <label class="form-label">No. of Months</label>

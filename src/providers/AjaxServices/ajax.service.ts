@@ -214,8 +214,8 @@ export class AjaxService {
   }
 
   getServiceUrl(Url: string, isLocalServerFlag: boolean = false): string {
-    let BaseUrlPath = `${environment.baseUrl}/api`;
-    // let BaseUrlPath = `https://www.axilcorps.com/api`;
+    // let BaseUrlPath = `${environment.baseUrl}/api`;
+    let BaseUrlPath = `https://www.axilcorps.com/api`;
 
     switch(this.serviceName) {
       case SERVICE.AUTH:
