@@ -141,7 +141,40 @@ export class UserInvestmentComponent implements OnInit {
     ShowModal("InvestmentViewCustomerModal");
   }
 
-  printCustomerSlip() {
-    window.print();
+  printCustomerSlip(id: string) {
+    const modal  = document.getElementById(id);
+    if (modal) {
+      const clonedModal = modal.cloneNode(true) as HTMLElement;
+      const inputs = clonedModal.querySelectorAll('input');
+      inputs.forEach((input: HTMLInputElement) => {
+        const value = input.value;
+        input.setAttribute('readonly', 'false'); // Optional: make it read-only for print
+        input.setAttribute ('value', value); // Set the value for printing
+      });
+      clonedModal.querySelector(".modal-dialog").classList.remove("modal-dialog-centered");
+      const printWindow = window.open('', '_blank');
+
+      printWindow!.document.write(`
+        <html>
+          <head>
+            <title>Print</title>
+            <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+            <style>
+                body {
+                  font-family: Arial, sans-serif;
+                  padding: 20px;
+                }
+            </style>
+          </head>
+          <body onload="window.print(); window.close();">
+            <div class="container">
+              ${clonedModal.innerHTML}
+            </div>
+          </body>
+        </html>
+      `);
+      printWindow!.document.close();
+      printWindow!.focus();
+    }
   }
 }
