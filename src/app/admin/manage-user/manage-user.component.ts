@@ -65,6 +65,7 @@ export class ManageUserComponent implements OnInit {
   };
   investmentForm: FormGroup;
   investmentDetail: Investment = {
+    paidInstallment: 0,
     investmentId: 0,
     investmentAmount: null,
     addOn: 0,
@@ -103,6 +104,7 @@ export class ManageUserComponent implements OnInit {
   };
   customerInvestmentDetail: Investment = {
     investmentId: 0,
+    paidInstallment: 0,
     investmentAmount: null,
     addOn: 0,
     principalAmount: null,
@@ -118,6 +120,8 @@ export class ManageUserComponent implements OnInit {
     lastName: null,
     accountId: null
   };
+  allInvestmentType: Array<InvestmentType> = [];
+  investmentType: InvestmentType = {amount: null, investmentTypeId: 0, month: null};
 
   constructor(private layout: LayoutComponent,
               private fb: FormBuilder,
@@ -240,7 +244,7 @@ export class ManageUserComponent implements OnInit {
 
     if (this.active == 4) {
       let lastPaymentDate = new Date(value.investmentDetail.istPaymentDate);
-      lastPaymentDate.setMonth(lastPaymentDate.getMonth() + value.investmentDetail.months);
+      lastPaymentDate.setMonth(lastPaymentDate.getMonth() + value.investmentDetail.months - 1);
       value.investmentDetail.lastPaymentDate = lastPaymentDate;
     } else {
       let emiEnddate = new Date(value.inventoryDetail.emiStartDate);
@@ -375,6 +379,18 @@ export class ManageUserComponent implements OnInit {
       this.active = Number(value);
       this.resetInventoryDetail();
       this.resetInvestmentForm();
+      if (this.active == 4) {
+        this.isLoading = true;
+        this.http.get("investment/getAllInvestmentType").then((res: ResponseModel) => {
+          if (res.ResponseBody) {
+            this.allInvestmentType = [];
+            this.allInvestmentType = res.ResponseBody;
+            this.isLoading = false;
+          }
+        }).catch(e => {
+          this.isLoading = false;
+        })
+      }
     }
   }
 
@@ -492,6 +508,7 @@ export class ManageUserComponent implements OnInit {
     this.isLoading = false;
     this.isSubmitted = false;
     this.investmentDetail = {
+      paidInstallment: 0,
       investmentId: 0,
       investmentAmount: null,
       addOn: 0,
@@ -509,6 +526,7 @@ export class ManageUserComponent implements OnInit {
       accountId: null
     };
     this.customerInvestmentDetail = {
+      paidInstallment: 0,
       investmentId: 0,
       investmentAmount: null,
       addOn: 0,
@@ -531,11 +549,7 @@ export class ManageUserComponent implements OnInit {
 
   selectScheme(e: any) {
     let value = Number(e.target.value);
-    if (value == 1) {
-      this.investmentForm.get("months").setValue(20);
-    } else {
-      this.investmentForm.get("months").setValue(14);
-    }
+    this.investmentForm.get("months").setValue(value);
   }
 
   onPaymentDateSelection(e: NgbDateStruct) {
@@ -567,6 +581,29 @@ export class ManageUserComponent implements OnInit {
   closeCustomerInventoryModal() {
     HideModal("InventoryCustomerModal");
     this.nav.navigateRoot(User, null);
+  }
+
+  addInvestmentTypePopup() {
+    this.investmentType = {amount: null, investmentTypeId: 0, month: null};
+    ShowModal("addInvestmentTypeModal");
+  }
+
+  addInvestmentSchemen() {
+    if (this.investmentType.amount > 0 && this.investmentType.month > 0) {
+      this.isLoading = true;
+      this.http.post("investment/addInvestmentType", this.investmentType).then((res:ResponseModel) => {
+        if (res.ResponseBody) {
+          this.allInvestmentType = [];
+          this.allInvestmentType = res.ResponseBody;
+          HideModal("addInvestmentTypeModal");
+          this.isLoading = false;
+        }
+      }).catch (e => {
+        this.isLoading = false;
+      })
+    } else {
+      ErrorToast("Please add investment amount and month");
+    }
   }
 }
 
@@ -619,7 +656,15 @@ export interface Investment {
   lastPaymentDate: Date;
   investmentDate: Date;
   scheme: number;
+  paidInstallment: number;
   firstName?: string;
   lastName?: string;
   accountId?: string;
+  total?: number;
+}
+
+interface InvestmentType {
+  investmentTypeId: number;
+  amount: number,
+  month: number;
 }

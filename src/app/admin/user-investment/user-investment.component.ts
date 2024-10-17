@@ -45,6 +45,7 @@ export class UserInvestmentComponent implements OnInit {
   };
   customerInvestmentDetail: Investment = {
     investmentId: 0,
+    paidInstallment: 0,
     investmentAmount: null,
     addOn: 0,
     principalAmount: null,

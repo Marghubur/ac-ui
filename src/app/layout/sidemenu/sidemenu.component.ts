@@ -4,9 +4,10 @@ import packageJson from '../../../../package.json';
 import { UserDetail, CommonService, ErrorToast, Toast } from "../../../providers/common-service/common.service";
 import { iNavigation } from "../../../providers/iNavigation";
 import { UserService } from "../../../providers/userService";
-import { Dashboard, InitialInvestment, Login, MasterData, User} from "../../../providers/constants";
+import { Dashboard, InitialInvestment, Login, MasterData, Roles, User} from "../../../providers/constants";
 import { CommonModule } from "@angular/common";
 import { RouterLink } from "@angular/router";
+import { ApplicationStorage } from "../../../providers/ApplicationStorage";
 
 @Component({
   standalone: true,
@@ -28,7 +29,7 @@ export class SidemenuComponent implements OnInit, AfterViewChecked {
   userDetail: UserDetail = new UserDetail();
   Menu: Array<any> = [];
   CatagoryPosition: number = 0;
-  MenuName: string = '';
+  private MenuName: string = '';
   isAdmin: boolean = false;
   isLoading: boolean = false;
   isMinimize: boolean = false;
@@ -51,6 +52,7 @@ export class SidemenuComponent implements OnInit, AfterViewChecked {
   constructor(
     private nav: iNavigation,
     private commonService: CommonService,
+    private local: ApplicationStorage,
     private user: UserService,
     private elementRef: ElementRef
   ) {
@@ -86,37 +88,83 @@ export class SidemenuComponent implements OnInit, AfterViewChecked {
     this.IsLoggedIn = false;
     this.isAdmin = true;
     this.userDetail = this.user.getInstance() as UserDetail;
-    this.Menu = [{
-      IsActive: true,
-      ParentDetail: {
-        Icon: "fa-brands fa-fort-awesome",
-        Badge: null
-      },
-      Name: "Administration",
-      Value: [
-        {
-          Link: Dashboard,
-          Icon: "fa-solid fa-gauge-high",
-          Catagory: "Dashboard"
-        },
-        {
-          Link: User,
-          Icon: "fa-solid fa-id-card",
-          Catagory: "Open Account"
-        },
-        {
-          Link: InitialInvestment,
-          Icon: "fa-solid fa-money-bill-trend-up",
-          Catagory: "Initial Investment"
-        },
-        {
-          Link: MasterData,
-          Icon: "fa-solid fa-upload",
-          Catagory: "Upload Master Data"
-        },
-      ]
-    }]
+    
+    let menuItem = this.nav.getRouteList();
+    this.MenuName = menuItem[0].Key;
+    let Master = this.local.get(null);
+    this.BuildMenu(Master["menu"]);
+    
+    // this.Menu = [{
+    //   IsActive: true,
+    //   ParentDetail: {
+    //     Icon: "fa-brands fa-fort-awesome",
+    //     Badge: null
+    //   },
+    //   Name: "Administration",
+    //   Value: [
+    //     {
+    //       Link: Dashboard,
+    //       Icon: "fa-solid fa-gauge-high",
+    //       Catagory: "Dashboard"
+    //     },
+    //     {
+    //       Link: User,
+    //       Icon: "fa-solid fa-id-card",
+    //       Catagory: "Open Account"
+    //     },
+    //     {
+    //       Link: InitialInvestment,
+    //       Icon: "fa-solid fa-money-bill-trend-up",
+    //       Catagory: "Initial Investment"
+    //     },
+    //     {
+    //       Link: Roles,
+    //       Icon: "fa-solid fa-money-bill-trend-up",
+    //       Catagory: "Roles"
+    //     },
+    //     {
+    //       Link: MasterData,
+    //       Icon: "fa-solid fa-upload",
+    //       Catagory: "Upload Master Data"
+    //     },
+    //   ]
+    // }];
     this.IsLoggedIn = true;
+  }
+
+  BuildMenu(menu: any) {
+    this.Menu = [];
+    let isActive = false;
+    if(menu) {
+      let parentItems = menu.filter(x => x.childs == null);
+      if(parentItems.length > 0) {
+        let filteredMenu = [];
+        let menuItems = [];
+        let i = 0;
+        let index = 0;
+        while(i < parentItems.length) {
+          isActive = false;
+          menuItems = menu.filter(x => x.childs === parentItems[i].catagory);
+          index = menuItems.findIndex(x => x.link === this.MenuName);
+          if(index >= 0) {
+            isActive = true;
+          }
+          filteredMenu.push({
+            name: parentItems[i].catagory,
+            parentDetail: parentItems[i],
+            value: menuItems,
+            isActive: isActive
+          });
+
+          index = -1;
+          i++;
+        }
+
+        this.Menu = filteredMenu.filter(x => x.value.length > 0);
+      } else {
+        ErrorToast("Hmm! Looks login issue. Please Login again.");
+      }
+    }
   }
 
   cleanupEmpId(link: string) {

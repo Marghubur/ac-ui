@@ -27,6 +27,9 @@ export const MasterData = `${BaseSubUrlPath}/axil/administration/masterdata`;
 export const User = `${BaseSubUrlPath}/axil/administration/user`;
 export const ManageUser = `${BaseSubUrlPath}/axil/administration/manageuser`;
 export const UserInvestment = `${BaseSubUrlPath}/axil/administration/userInvestment`;
+export const Roles = `${BaseSubUrlPath}/axil/administration/roles`;
+export const DailyTransaction = `${BaseSubUrlPath}/axil/administration/dailytransaction`;
+export const ChangePassword = `${BaseSubUrlPath}/axil/common/changepassword`;
 
 // ********************** Admin route pages  *******************
 

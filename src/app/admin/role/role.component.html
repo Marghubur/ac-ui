@@ -1,0 +1,142 @@
+<div class="col-12 full-v main-container" [ngClass]="{'preload': !isRolesLoaded}">
+    <div>
+      <form [formGroup]="rolesForm">
+        <div class="content-header">
+          <div class="col-8">
+            <div class="px-1">
+              <app-breadcrums [title]="'Roles'" [subtitle]="'Manage user roles.'"></app-breadcrums>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="x_header_title d-flex align-items-center justify-content-end">
+              <a href="javascript:void(0)" class="text-decoration-none fw-bold pe-4" (click)="pageReload()">
+                <i class="fa-solid fa-arrows-rotate" data-bs-toggle="tooltip" data-bs-placement="right" title="Reload this page"></i>
+              </a>
+              <button class="btn btn-sm btn-outline-primary float-end ms-3" (click)="addRolePopUp()">
+                <i class="fa-regular fa-square-plus pe-2" aria-hidden="true"></i>Add Role
+              </button>
+              <button class="btn btn-outline-success btn-sm float-end ms-3" [disabled]="ispermissionAdding || !isRolesLoaded"
+                (click)="submitRole()">
+                <i class="fa-solid" [ngClass]="{'fa-arrow-right-to-bracket': !ispermissionAdding, 'fa-spinner fa-spin': ispermissionAdding}"
+                  aria-hidden="true"></i>
+                <span class="ps-2">{{ispermissionAdding ? 'Wait' : 'Save' }}</span>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="x_panel">
+          <div class="col-12 row m-0 pt-3">
+            <div class="col-md-4">
+              <label class="form-label">Existing Roles *</label>
+              <select class="form-select" name="RoleName" (change)="loadMenu($event)" formControlName="accessLevel">
+                <option value="0" disabled>Select Role</option>
+                <option value="{{item.accessLevelId}}" *ngFor="let item of Roles">{{item.roleName}}</option>
+              </select>
+            </div>
+          </div>
+  
+          <ng-container *ngIf="!isRolesLoaded">
+            <h2 class="my-5 py-5 text-center text-muted select-role-message">
+              Please select existing role from above dropdown and grant appropriate permission.
+            </h2>
+          </ng-container>
+  
+        <ng-container *ngIf="isPageReady && isRolesLoaded">
+            <div class="row col-md-12 pt-3">
+            <div class="col-md-6 row pt-3 skeleton" *ngFor="let catagory of Menu; let i = index;">
+                <div class="vhide">
+                <div class="card card-body mt-3">
+                    <h6 class="bg-c text-white fw-bold rounded px-3 py-2" >{{catagory.name}}</h6>
+                    <div formArrayName="menuItems" class="card-body pt-0 pb-0">
+                    <ng-container *ngFor="let item of rolesForm.get('menuItems').controls;let index = index;">
+                        <ng-container [formGroupName]="index">
+                        <div *ngIf="catagory.name === item.get('parentMenu').value"
+                            class="d-flex row-items justify-content-between border-bottom pt-4 pb-4">
+                            <div class="d-flex justify-content-center align-items-center">
+                            <i class="{{item.get('icon').value}} fa-lg"></i>
+                            <label class="category-name ps-3">
+                                {{item.get('catagory').value}}
+                            </label>
+                            </div>
+                            <div class="btn-group dropstart">
+                            <label class="noaccess pe-4" [ngClass]="{
+                                'readonly': item.get('permission').value == 2,
+                                'readwrite': item.get('permission').value == 3,
+                                'fullaccess': item.get('permission').value == 1
+                                }">{{getPermessionName(item.get('permission').value)}}</label>
+
+                            <div class="col">
+                                <div ngbDropdown class="d-inline-block">
+                                <button type="button" class="btn btn-sm" id="dropdownBasic1" ngbDropdownToggle>
+                                    <i class="fa-solid fa-ellipsis-vertical" aria-hidden="true"></i>
+                                </button>
+                                <div class="dropdown-menu" ngbDropdownMenu aria-labelledby="dropdownBasic1">
+                                    <button ngbDropdownItem>
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                        (click)="selectPermission(0, index)">Block Access</a>
+                                    </button>
+                                    <button ngbDropdownItem>
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                        (click)="selectPermission(2, index)">Read only</a>
+                                    </button>
+                                    <button ngbDropdownItem>
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                        (click)="selectPermission(3, index)">Read & Write</a>
+                                    </button>
+                                    <button ngbDropdownItem>
+                                    <a class="dropdown-item" href="javascript:void(0)"
+                                        (click)="selectPermission(1, index)">Full Access</a>
+                                    </button>
+                                </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        </ng-container>
+                    </ng-container>
+                    </div>
+                </div>
+                </div>
+            </div>
+            </div>
+        </ng-container>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <!-- Add Role Modal -->
+  <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="addRole" tabindex="-1" role="dialog"
+    aria-labelledby="createFolderTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header border-bottom-0">
+          <h5 class="modal-title font-weight-bold text-dark" id="exampleModalLongTitle">New Role</h5>
+        </div>
+        <div class="modal-body">
+          <div class="col-12">
+            <form [formGroup]="addRoleForm">
+              <div class=" col-md-12">
+                <label class="form-label">Role Name</label>
+                <input type="text" class="form-control" (input)="inputToUppercase($event)" placeholder="Role Name" formControlName="roleName" [ngClass]="{'error-field': submitted && f['roleName'].errors !== null && f['roleName'].errors['required']}">
+              </div>
+              <div class="pt-3">
+                <label class="form-label">Access Code Defination</label>
+                <textarea class="form-control code-defination-txtarea" (input)="inputToUppercase($event)" placeholder="Access Code Defination" [ngClass]="{'error-field': submitted && f['accessCodeDefination'].errors !== null && f['accessCodeDefination'].errors['required']}"
+                  formControlName="accessCodeDefination"></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer border-top-0">
+          <button (click)="CloseFolderPopup()" class="btn btn-sm btn-outline-danger" data-dismiss="modal">Cancel</button>
+          <button (click)="AddRole()" [disabled]="isLoading" class="btn btn-sm btn-outline-success">
+            <i class="fa pe-2" [ngClass]="{'fa-plus': !isLoading, 'fa-solid fa-spinner fa-spin': isLoading}"
+              aria-hidden="true"></i>
+            {{isLoading ? 'Wait' : 'Add Role' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  

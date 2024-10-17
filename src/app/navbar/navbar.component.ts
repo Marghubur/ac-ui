@@ -1,7 +1,7 @@
 import { ApplicationStorage } from "./../../providers/ApplicationStorage";
 import { CoreHttpService } from "../../providers/AjaxServices/core-http.service";
 import { CommonService, Toast, UserDetail } from "./../../providers/common-service/common.service";
-import { AccessTokenExpiredOn, Login } from "./../../providers/constants";
+import { AccessTokenExpiredOn, ChangePassword, Login } from "./../../providers/constants";
 import { Component, OnInit, Output, EventEmitter, DoCheck } from "@angular/core";
 import { iNavigation } from "../../providers/iNavigation";
 import { JwtService, ResponseModel } from "../../auth/jwtService";
@@ -101,8 +101,8 @@ export class NavbarComponent implements OnInit, DoCheck {
 
   }
 
-  resetPassword() {
-
+  changePassword() {
+    this.nav.navigateRoot(ChangePassword, null);
   }
 
   mangeAccount() {
