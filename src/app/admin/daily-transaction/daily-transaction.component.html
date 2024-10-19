@@ -1,0 +1,175 @@
+<div class="col-md-12 main-container">
+    <div class="content-header">
+      <div class="col-6 d-flex">
+        <div class="col-auto px-1">
+          <app-breadcrums [title]="'User detail'"></app-breadcrums>
+        </div>
+      </div>
+    </div>
+
+    <div class="x_panel">
+        <div class="x_content">
+          <div class="t-table t-list col-md-12">
+            <div class="t-head">
+              <div class="tr">
+                <div class="th fe-2">
+                    <div class="cell-wrapper">
+                    Name
+                    </div>
+                </div>
+                <div class="th">
+                    <div class="cell-wrapper">
+                    Investment Amount
+                    </div>
+                </div>
+                <div class="th">
+                    <div class="cell-wrapper">
+                        Total Profit Amount
+                    </div>
+                </div>
+                <div class="th">
+                    <div class="cell-wrapper">
+                        Period (months)
+                    </div>
+                </div>
+                <div class="th">
+                    <div class="cell-wrapper">
+                        Paid Installment
+                    </div>
+                </div>
+                <div class="th">
+                    <div class="cell-wrapper">
+                        Investment Date
+                    </div>
+                </div>
+                <div class="th">
+                    <div class="cell-wrapper">
+                        Last Payment Date
+                    </div>
+                </div>
+                <div class="th fe-index text-center">
+                  <div class="cell-wrapper">
+                    <div>ACTIONS</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="t-body">
+              @if (isPageReady) {
+                <div class="tr py-2" *ngFor="let investment of investmentDetail; let i = index;">
+                  <div class="td align-middle fe-2">
+                    <div class="cell-wrapper">
+                      <div class="col-auto d-inline-block rounded-circle">
+                        <img src="assets/images/face.jpg" alt="profile" class="rounded-circle user-profile">
+                         <!-- <div class="user-profile fw-semibold rounded-circle text-dark d-flex align-items-center justify-content-center" [style.backgroundColor]="getBackgroundColor()">
+                          {{user.firstName | slice: 0:2 | titlecase}}
+                         </div> -->
+                      </div>
+                      <span class="ps-2" (click)="EditCurrent(investment)">{{investment.firstName}}
+                        {{investment.lastName}}
+                        <small class="text-muted text-decoration-none ps-2">
+                          [A/C Id: {{investment.accountId}}]
+                        </small>
+                      </span>
+                    </div>
+                  </div>
+                  <div class="td align-middle ">
+                    <div class="cell-wrapper">
+                      {{investment.investmentAmount}}
+                    </div>
+                  </div>
+                  <div class="td align-middle">
+                    <div class="cell-wrapper">
+                      {{investment.totalProfitAmount}}
+                    </div>
+                  </div>
+                  <div class="td align-middle">
+                    <div class="cell-wrapper">
+                      {{investment.months}}
+                    </div>
+                  </div>
+                  <div class="td align-middle">
+                    <div class="cell-wrapper">
+                      {{investment.paidInstallment}}
+                    </div>
+                  </div>
+                  <div class="td align-middle">
+                    <div class="cell-wrapper">
+                      {{investment.investmentDate | date}}
+                    </div>
+                  </div>
+                  <div class="td align-middle">
+                    <div class="cell-wrapper">
+                      {{investment.lastPaymentDate | date}}
+                    </div>
+                  </div>
+                  <div class="td align-middle fe-index">
+                    <div class="d-flex flex-row justify-content-evenly">
+                      <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="openPaymentPopUp(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="Make payment">
+                        <span class="badge bg-primary">
+                            <i class="fa-solid fa-money-bill-1"></i>
+                        </span>
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              } @else {
+                <app-bt-record-not-found></app-bt-record-not-found>
+              }
+            </div>
+          </div>
+        </div>
+        @if (isPageReady) {
+          <div class="">
+            <app-pagination [pagination]="transactionData" (onPageChange)="GetFilterResult($event)"></app-pagination>
+          </div>
+        }
+    </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content px-3">
+        <div class="modal-header border-bottom-0">
+          <h1 class="modal-title fs-5" id="paymentModalLabel">Payment Detail</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+            @if (selectedPayment != null) {
+                <div class="row">
+                  <div class="col-md-6">
+                      Name :
+                  </div>
+                  <div class="col-md-6">
+                      {{selectedPayment.firstName}} {{selectedPayment.lastName}}
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-md-6">
+                      Investment Amount :
+                  </div>
+                  <div class="col-md-6">
+                    <i class="fa-solid fa-indian-rupee-sign pe-1"></i>{{selectedPayment.investmentAmount}}
+                  </div>
+                </div>
+                <div class="row mt-2">
+                  <div class="col-md-6">
+                      Installment :
+                  </div>
+                  <div class="col-md-6">
+                    {{getOrdinalInstallment(selectedPayment.paidInstallment + 1, selectedPayment.months)}}
+                  </div>
+                </div>
+            }
+        </div>
+        <div class="modal-footer border-top-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button class="btn btn-success"(click)="makePayment()">
+            <i class="" [ngClass]="{'fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-floppy-disk': !isLoading}"></i>
+            <span class="ps-1">Make Payment</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
