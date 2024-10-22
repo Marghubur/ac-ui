@@ -8,7 +8,7 @@ import { Filter } from '../../../providers/userService';
 import { ResponseModel } from '../../../auth/jwtService';
 import { Investment } from '../manage-user/manage-user.component';
 import { CommonModule } from '@angular/common';
-import { HideModal, ShowModal } from '../../../providers/common-service/common.service';
+import { HideModal, ShowModal, Toast } from '../../../providers/common-service/common.service';
 
 @Component({
   selector: 'app-daily-transaction',
@@ -23,6 +23,7 @@ export class DailyTransactionComponent implements OnInit {
   investmentDetail: Array<Investment> = [];
   selectedPayment: Investment = null;
   isLoading: boolean = false;
+  paymentDetails: Array<PaymentDetail> = [];
 
   constructor(private layout: LayoutComponent,
               private http: CoreHttpService) {}
@@ -37,8 +38,15 @@ export class DailyTransactionComponent implements OnInit {
     this.http.post("investment/dailyTransaction", this.transactionData).then((res:ResponseModel) => {
       if (res.ResponseBody) {
         this.investmentDetail = res.ResponseBody;
-        if (this.investmentDetail.length > 0)
+        if (this.investmentDetail.length > 0) {
           this.transactionData.totalRecords = this.investmentDetail[0].total;
+          this.investmentDetail.forEach(x => {
+            if (x.paymentDetail) {
+              let paymentDetail = JSON.parse(x.paymentDetail);
+              x.isPaid = paymentDetail.find(i => i.installmentNumber == x.paidInstallment).isPaid;
+            }
+          });
+        }
         else
           this.transactionData.totalRecords = 0;
         
@@ -79,17 +87,33 @@ export class DailyTransactionComponent implements OnInit {
   makePayment() {
     if (this.selectedPayment) {
       this.isLoading = true;
-      this.http.post("", this.selectedPayment).then((res:ResponseModel) => {
+      this.http.get(`investment/payInvestmentAmount/${this.selectedPayment.investmentId}`).then((res:ResponseModel) => {
         if (res.ResponseBody) {
           this.investmentDetail.find(x => x.investmentId == this.selectedPayment.investmentId).paidInstallment = this.selectedPayment.paidInstallment + 1;
           this.selectedPayment = null;
+          Toast(res.ResponseBody);
           this.isLoading = false;
           HideModal("paymentModal");
         }
       }).catch(e => {
         this.isLoading = false;
-          HideModal("paymentModal");
+        HideModal("paymentModal");
       })
     }
   }
+
+  viewPaymentDetail(investmentDetail: Investment) {
+    if (investmentDetail && investmentDetail.paymentDetail) {
+      this.paymentDetails = [];
+      this.paymentDetails = JSON.parse(investmentDetail.paymentDetail);
+      ShowModal("viewPaymentModal");
+    }
+  }
+}
+
+export interface PaymentDetail {
+  amount: number,
+  isPaid: boolean,
+  installmentNumber: number,
+  paymentDate: Date
 }

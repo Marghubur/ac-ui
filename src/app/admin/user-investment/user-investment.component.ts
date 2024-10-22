@@ -12,6 +12,7 @@ import { ErrorToast, ShowModal, ToLocateDate } from '../../../providers/common-s
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
+import { PaymentDetail } from '../daily-transaction/daily-transaction.component';
 
 @Component({
   selector: 'app-user-investment',
@@ -62,6 +63,7 @@ export class UserInvestmentComponent implements OnInit {
     accountId: null
   };
   active: number = 1;
+  paymentDetails: Array<PaymentDetail> = [];
 
   constructor(private layout: LayoutComponent,
               private http: CoreHttpService,
@@ -176,6 +178,34 @@ export class UserInvestmentComponent implements OnInit {
       `);
       printWindow!.document.close();
       printWindow!.focus();
+    }
+  }
+
+  viewPaymentDetail(investmentDetail: Investment) {
+    if (investmentDetail && investmentDetail.paymentDetail) {
+      this.paymentDetails = [];
+      this.paymentDetails = JSON.parse(investmentDetail.paymentDetail);
+      ShowModal("viewInvestmentPaymentModal");
+    }
+  }
+
+  getOrdinalInstallment(value: number, lastvalue: number): string {
+    if (!value) return '';
+
+    if (value != lastvalue) {
+      const suffixes = ["th", "st", "nd", "rd"];
+      const valueMod10 = value % 10;
+      const valueMod100 = value % 100;
+
+      let suffix = suffixes[0]; // Default to "th"
+
+      if (valueMod10 >= 1 && valueMod10 <= 3 && !(valueMod100 >= 11 && valueMod100 <= 13) && !(valueMod100 >= 21 && valueMod100 <= 23) && !(valueMod100 >= 31 && valueMod100 <= 33) && !(valueMod100 >= 41 && valueMod100 <= 43)) {
+        suffix = suffixes[valueMod10];
+      }
+
+      return value + suffix;
+    } else {
+      return "Last";
     }
   }
 }

@@ -661,6 +661,8 @@ export interface Investment {
   lastName?: string;
   accountId?: string;
   total?: number;
+  paymentDetail?: string;
+  isPaid?: boolean;
 }
 
 interface InvestmentType {
