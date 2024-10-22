@@ -253,9 +253,14 @@
                                             </div>
                                         </div>
                                         <div class="td fe-index">
-                                            <div class="cell-wrapper">
+                                            <div class="d-flex flex-row justify-content-evenly">
                                                 <a href="javascript:void(0)" (click)="viewInvestment(item)">
                                                     <i class="fa-regular fa-eye"></i>
+                                                </a>
+                                                <a href="javascript:void(0) ms-2" (click)="viewPaymentDetail(item)" data-bs-toggle="tooltip" data-bs-placement="right" title="View Payment Detail">
+                                                  <span class="badge bg-success">
+                                                    <i class="fa-solid fa-money-bill-transfer"></i>
+                                                  </span>
                                                 </a>
                                             </div>
                                         </div>
@@ -427,3 +432,49 @@
       </div>
     </div>
   </div>
+
+  <!--View Payment Detial Modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="viewInvestmentPaymentModal" tabindex="-1" aria-labelledby="viewInvestmentPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content px-3">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="viewInvestmentPaymentModalLabel">All Payment Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (paymentDetails != null && paymentDetails.length > 0) {
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Installment No.</th>
+                <th>Amount</th>
+                <th>IsPaid</th>
+                <th>Payment/Expected Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paymentDetails; track $index) {
+                <tr>
+                  <td>{{getOrdinalInstallment(item.installmentNumber, paymentDetails.length )}}</td>
+                  <td><i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{item.amount | number :'1.2-2'}}</td>
+                  <td> 
+                    @if (item.isPaid) {
+                      <i class="fa-solid fa-square-check text-success pe-2"></i> 
+                    } @else {
+                      <i class="fa-solid fa-clock pe-2 text-info"></i>
+                    }
+                    {{item.isPaid == true ? 'Paid' : 'Not Paid'}}
+                  </td>
+                  <td>{{item.paymentDate | date}}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark pe-2"></i>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

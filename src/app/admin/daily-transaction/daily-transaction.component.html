@@ -12,42 +12,47 @@
           <div class="t-table t-list col-md-12">
             <div class="t-head">
               <div class="tr">
-                <div class="th fe-2">
+                <div class="th fe-4">
                     <div class="cell-wrapper">
                     Name
                     </div>
                 </div>
-                <div class="th">
+                <div class="th fe-2">
                     <div class="cell-wrapper">
                     Investment Amount
                     </div>
                 </div>
-                <div class="th">
+                <div class="th fe-2">
                     <div class="cell-wrapper">
                         Total Profit Amount
                     </div>
                 </div>
-                <div class="th">
+                <div class="th fe-2">
                     <div class="cell-wrapper">
                         Period (months)
                     </div>
                 </div>
-                <div class="th">
+                <div class="th fe-2">
                     <div class="cell-wrapper">
                         Paid Installment
                     </div>
                 </div>
-                <div class="th">
+                <div class="th fe-2">
                     <div class="cell-wrapper">
                         Investment Date
                     </div>
                 </div>
-                <div class="th">
-                    <div class="cell-wrapper">
-                        Last Payment Date
-                    </div>
+                <div class="th fe-2">
+                  <div class="cell-wrapper">
+                      Last Payment Date
+                  </div>
                 </div>
-                <div class="th fe-index text-center">
+                <div class="th fe-2">
+                  <div class="cell-wrapper">
+                      Status
+                  </div>
+                </div>
+                <div class="th text-center fe-1">
                   <div class="cell-wrapper">
                     <div>ACTIONS</div>
                   </div>
@@ -57,7 +62,7 @@
             <div class="t-body">
               @if (isPageReady) {
                 <div class="tr py-2" *ngFor="let investment of investmentDetail; let i = index;">
-                  <div class="td align-middle fe-2">
+                  <div class="td align-middle fe-4">
                     <div class="cell-wrapper">
                       <div class="col-auto d-inline-block rounded-circle">
                         <img src="assets/images/face.jpg" alt="profile" class="rounded-circle user-profile">
@@ -73,41 +78,57 @@
                       </span>
                     </div>
                   </div>
-                  <div class="td align-middle ">
+                  <div class="td align-middle fe-2">
                     <div class="cell-wrapper">
                       <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.investmentAmount | number : '1.2-2'}}
                     </div>
                   </div>
-                  <div class="td align-middle">
+                  <div class="td align-middle fe-2">
                     <div class="cell-wrapper">
                       <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.totalProfitAmount | number : '1.2-2'}}
                     </div>
                   </div>
-                  <div class="td align-middle">
+                  <div class="td align-middle fe-2">
                     <div class="cell-wrapper">
                       {{investment.period}}
                     </div>
                   </div>
-                  <div class="td align-middle">
+                  <div class="td align-middle fe-2">
                     <div class="cell-wrapper">
                       {{investment.paidInstallment}}
                     </div>
                   </div>
-                  <div class="td align-middle">
+                  <div class="td align-middle fe-2">
                     <div class="cell-wrapper">
                       {{investment.investmentDate | date}}
                     </div>
                   </div>
-                  <div class="td align-middle">
+                  <div class="td align-middle fe-2">
                     <div class="cell-wrapper">
                       {{investment.lastPaymentDate | date}}
                     </div>
                   </div>
-                  <div class="td align-middle fe-index">
-                    <div class="d-flex flex-row justify-content-evenly">
-                      <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="openPaymentPopUp(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="Make payment">
-                        <span class="badge bg-primary">
-                            <i class="fa-solid fa-money-bill-1"></i>
+                  <div class="td fe-2 align-middle">
+                    <div class="cell-wrapper">
+                      @if (investment.isPaid) {
+                        <i class="fa-solid fa-square-check text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Paid"></i> Paid
+                      } @else {
+                        <i class="fa-solid fa-clock text-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Not Paid"></i> Not Paid
+                      }
+                    </div>
+                  </div>
+                  <div class="td fe-1 align-middle">
+                    <div class="d-flex flex-row pe-1" [ngClass]="{'justify-content-between': !investment.isPaid, 'justify-content-end': investment.isPaid}">
+                      @if (!investment.isPaid) {
+                        <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="openPaymentPopUp(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="Make Payment">
+                          <span class="badge bg-primary">
+                              <i class="fa-solid fa-money-bill-1"></i>
+                          </span>
+                        </a>
+                      }
+                      <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="viewPaymentDetail(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="View Payment Detail">
+                        <span class="badge bg-success">
+                          <i class="fa-solid fa-money-bill-transfer"></i>
                         </span>
                       </a>
                     </div>
@@ -164,12 +185,58 @@
             }
         </div>
         <div class="modal-footer border-top-0">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark pe-2"></i>Close</button>
           <button class="btn btn-success"(click)="makePayment()">
             <i class="" [ngClass]="{'fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-floppy-disk': !isLoading}"></i>
-            <span class="ps-1">Make Payment</span>
+            <span class="ps-2">Make Payment</span>
           </button>
         </div>
       </div>
     </div>
   </div>
+
+<!--View Payment Detial Modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="viewPaymentModal" tabindex="-1" aria-labelledby="viewPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content px-3">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="viewPaymentModalLabel">All Payment Details</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (paymentDetails != null && paymentDetails.length > 0) {
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Installment No.</th>
+                <th>Amount</th>
+                <th>IsPaid</th>
+                <th>Payment/Expected Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (item of paymentDetails; track $index) {
+                <tr>
+                  <td>{{getOrdinalInstallment(item.installmentNumber, paymentDetails.length)}}</td>
+                  <td><i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{item.amount | number :'1.2-2'}}</td>
+                  <td> 
+                    @if (item.isPaid) {
+                      <i class="fa-solid fa-square-check text-success pe-2"></i> 
+                    } @else {
+                      <i class="fa-solid fa-clock pe-2 text-info"></i>
+                    }
+                    {{item.isPaid == true ? 'Paid' : 'Not Paid'}}
+                  </td>
+                  <td>{{item.paymentDate | date}}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        }
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark pe-2"></i>Close</button>
+      </div>
+    </div>
+  </div>
+</div>
