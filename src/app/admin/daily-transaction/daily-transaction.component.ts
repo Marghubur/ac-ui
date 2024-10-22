@@ -41,7 +41,7 @@ export class DailyTransactionComponent implements OnInit {
           this.transactionData.totalRecords = this.investmentDetail[0].total;
         else
           this.transactionData.totalRecords = 0;
-        console.table(this.investmentDetail);
+        
         this.isPageReady = true;
         this.layout.stopSkeleton();
       }
