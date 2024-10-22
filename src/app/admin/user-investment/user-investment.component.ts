@@ -22,15 +22,15 @@ import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 })
 export class UserInvestmentComponent implements OnInit {
   isPageReady: boolean = false;
-  inventoryDetail: Array<Inventory> = [];
+  cdProductInvestment: Array<Inventory> = [];
   investmentDetail: Array<Investment> = [];
   private currentUser: user = null;
   customerInventoryDetail: Inventory = {
-    inventoryId: 0,
-    inventoryName: "",
+    cdProductId: 0,
+    productName: "",
     emiAmount: null,
-    onRoadPrice: null,
-    months: null,
+    finalPrice: null,
+    period: null,
     downPayment: null,
     loanAmount: 0,
     totalPayableAmount: 0,
@@ -50,7 +50,7 @@ export class UserInvestmentComponent implements OnInit {
     addOn: 0,
     principalAmount: null,
     profitAmount: null,
-    months: null,
+    period: null,
     totalProfitAmount: null,
     totalPayableAmount: null,
     istPaymentDate: null,
@@ -84,9 +84,9 @@ export class UserInvestmentComponent implements OnInit {
     this.isPageReady = false;
     this.http.get(`inventory/getInventory/${this.currentUser.userId}`).then((res:ResponseModel) => {
       if (res.ResponseBody) {
-        this.inventoryDetail = res.ResponseBody;
-        if (this.inventoryDetail.length > 0) {
-          this.inventoryDetail.forEach(x => {
+        this.cdProductInvestment = res.ResponseBody;
+        if (this.cdProductInvestment.length > 0) {
+          this.cdProductInvestment.forEach(x => {
             x.emiStartDate = ToLocateDate(x.emiStartDate);
             x.emiEndDate = ToLocateDate(x.emiEndDate);
             x.depositDate = ToLocateDate(x.createdOn);
@@ -136,9 +136,9 @@ export class UserInvestmentComponent implements OnInit {
     this.customerInvestmentDetail.firstName = this.currentUser.firstName;
     this.customerInvestmentDetail.lastName = this.currentUser.lastName;
     this.customerInvestmentDetail.accountId = this.currentUser.accountId;
-    this.customerInvestmentDetail.principalAmount = this.customerInvestmentDetail.principalAmount * this.customerInvestmentDetail.months;
-    this.customerInvestmentDetail.profitAmount = this.customerInvestmentDetail.profitAmount * this.customerInvestmentDetail.months;
-    this.customerInvestmentDetail.totalProfitAmount = this.customerInvestmentDetail.totalProfitAmount * this.customerInvestmentDetail.months;
+    this.customerInvestmentDetail.principalAmount = this.customerInvestmentDetail.principalAmount * this.customerInvestmentDetail.period;
+    this.customerInvestmentDetail.profitAmount = this.customerInvestmentDetail.profitAmount * this.customerInvestmentDetail.period;
+    this.customerInvestmentDetail.totalProfitAmount = this.customerInvestmentDetail.totalProfitAmount * this.customerInvestmentDetail.period;
     ShowModal("InvestmentViewCustomerModal");
   }
 

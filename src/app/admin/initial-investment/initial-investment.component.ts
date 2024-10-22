@@ -22,12 +22,12 @@ import { user } from '../user/user.component';
 export class InitialInvestmentComponent implements OnInit {
   active = 1;
   inventoryForm: FormGroup;
-  inventoryDetail: Inventory = {
-    inventoryId: 0,
-    inventoryName: "",
+  cdProductInvestment: Inventory = {
+    cdProductId: 0,
+    productName: "",
     emiAmount: null,
-    onRoadPrice: null,
-    months: null,
+    finalPrice: null,
+    period: null,
     downPayment: null,
     loanAmount: 0,
     totalPayableAmount: 0,
@@ -43,7 +43,7 @@ export class InitialInvestmentComponent implements OnInit {
     addOn: 0,
     investmentAmount: null,
     investmentId: 0,
-    months: 0,
+    period: 0,
     paymentDate: null,
     profitAmount: null,
     totalPayableAmount: 0,
@@ -54,11 +54,11 @@ export class InitialInvestmentComponent implements OnInit {
   model: NgbDateStruct;
   paymentModel: NgbDateStruct;
   customerInventoryDetail: Inventory = {
-    inventoryId: 0,
-    inventoryName: "",
+    cdProductId: 0,
+    productName: "",
     emiAmount: null,
-    onRoadPrice: null,
-    months: null,
+    finalPrice: null,
+    period: null,
     downPayment: null,
     loanAmount: 0,
     totalPayableAmount: 0,
@@ -75,7 +75,7 @@ export class InitialInvestmentComponent implements OnInit {
     addOn: 0,
     investmentAmount: null,
     investmentId: 0,
-    months: null,
+    period: null,
     paymentDate: null,
     profitAmount: null,
     totalPayableAmount: null,
@@ -104,32 +104,32 @@ export class InitialInvestmentComponent implements OnInit {
 
   initinventoryForm() {
     this.inventoryForm = this.fb.group({
-      inventoryId: new FormControl(this.inventoryDetail.inventoryId),
+      cdProductId: new FormControl(this.cdProductInvestment.cdProductId),
       userId: new FormControl(this.userId),
-      inventoryName: new FormControl(this.inventoryDetail.inventoryName, [Validators.required]),
-      emiAmount: new FormControl(this.inventoryDetail.emiAmount, [Validators.required]),
-      onRoadPrice: new FormControl(this.inventoryDetail.onRoadPrice, [Validators.required]),
-      months: new FormControl(this.inventoryDetail.months, [Validators.required]),
-      downPayment: new FormControl(this.inventoryDetail.downPayment, [Validators.required]),
-      loanAmount: new FormControl(this.inventoryDetail.loanAmount),
-      totalPayableAmount: new FormControl(this.inventoryDetail.totalPayableAmount),
-      payableAmountToOffice: new FormControl(this.inventoryDetail.payableAmountToOffice),
-      emiStartDate: new FormControl(this.inventoryDetail.emiStartDate, [Validators.required]),
-      emiEndDate: new FormControl(this.inventoryDetail.emiEndDate),
-      percentage: new FormControl(this.inventoryDetail.percentage, [Validators.required])
+      productName: new FormControl(this.cdProductInvestment.productName, [Validators.required]),
+      emiAmount: new FormControl(this.cdProductInvestment.emiAmount, [Validators.required]),
+      finalPrice: new FormControl(this.cdProductInvestment.finalPrice, [Validators.required]),
+      period: new FormControl(this.cdProductInvestment.period, [Validators.required]),
+      downPayment: new FormControl(this.cdProductInvestment.downPayment, [Validators.required]),
+      loanAmount: new FormControl(this.cdProductInvestment.loanAmount),
+      totalPayableAmount: new FormControl(this.cdProductInvestment.totalPayableAmount),
+      payableAmountToOffice: new FormControl(this.cdProductInvestment.payableAmountToOffice),
+      emiStartDate: new FormControl(this.cdProductInvestment.emiStartDate, [Validators.required]),
+      emiEndDate: new FormControl(this.cdProductInvestment.emiEndDate),
+      percentage: new FormControl(this.cdProductInvestment.percentage, [Validators.required])
     })
   }
 
   calculateTotalPayableAmount() {
     let emiAmount: number = this.inventoryForm.get("emiAmount").value;
-    let months: number = this.inventoryForm.get("months").value;
-    this.inventoryForm.get("totalPayableAmount").setValue(emiAmount * months);
+    let period: number = this.inventoryForm.get("period").value;
+    this.inventoryForm.get("totalPayableAmount").setValue(emiAmount * period);
   }
 
   calculateLoanAmount() {
-    let onRoadPrice: number = this.inventoryForm.get("onRoadPrice").value;
+    let finalPrice: number = this.inventoryForm.get("finalPrice").value;
     let downPayment: number = this.inventoryForm.get("downPayment").value;
-    let amount = onRoadPrice - downPayment;
+    let amount = finalPrice- downPayment;
     this.inventoryForm.get("loanAmount").setValue(amount);
 
     this.calculatePaybleOfficeAmount(amount);
@@ -158,7 +158,7 @@ export class InitialInvestmentComponent implements OnInit {
 
     let value = this.inventoryForm.value;
     let emiEnddate = new Date(value.emiStartDate);
-    emiEnddate.setMonth(emiEnddate.getMonth() + value.months);
+    emiEnddate.setMonth(emiEnddate.getMonth() + value.period);
     this.inventoryForm.get("emiEndDate").setValue(emiEnddate);
     this.inventoryForm.get("userId").setValue(this.userId);
 
@@ -195,12 +195,12 @@ export class InitialInvestmentComponent implements OnInit {
   }
 
   resetInventoryDetail() {
-    this.inventoryDetail = {
-      inventoryId: 0,
-      inventoryName: "",
+    this.cdProductInvestment = {
+      cdProductId: 0,
+      productName: "",
       emiAmount: null,
-      onRoadPrice: null,
-      months: null,
+      finalPrice: null,
+      period: null,
       downPayment: null,
       loanAmount: 0,
       totalPayableAmount: 0,
@@ -210,11 +210,11 @@ export class InitialInvestmentComponent implements OnInit {
       percentage: null
     };
     this.customerInventoryDetail = {
-      inventoryId: 0,
-      inventoryName: "",
+      cdProductId: 0,
+      productName: "",
       emiAmount: null,
-      onRoadPrice: null,
-      months: null,
+      finalPrice: null,
+      period: null,
       downPayment: null,
       loanAmount: 0,
       totalPayableAmount: 0,
@@ -235,7 +235,7 @@ export class InitialInvestmentComponent implements OnInit {
       investmentAmount: new FormControl(this.investmentDetail.investmentAmount, [Validators.required]),
       profitAmount: new FormControl(this.investmentDetail.profitAmount),
       addOn: new FormControl(this.investmentDetail.addOn),
-      months: new FormControl(this.investmentDetail.months),
+      period: new FormControl(this.investmentDetail.period),
       paymentDate: new FormControl(this.investmentDetail.paymentDate, [Validators.required]),
       totalPayableAmount: new FormControl(this.investmentDetail.totalPayableAmount),
       scheme: new FormControl(this.investmentDetail.scheme, [Validators.required]),
@@ -261,7 +261,7 @@ export class InitialInvestmentComponent implements OnInit {
       addOn: 0,
       investmentAmount: null,
       investmentId: 0,
-      months: null,
+      period: null,
       paymentDate: null,
       profitAmount: null,
       totalPayableAmount: null,
@@ -285,7 +285,7 @@ export class InitialInvestmentComponent implements OnInit {
       addOn: 0,
       investmentAmount: null,
       investmentId: 0,
-      months: 0,
+      period: 0,
       paymentDate: null,
       profitAmount: null,
       totalPayableAmount: 0,
@@ -297,7 +297,7 @@ export class InitialInvestmentComponent implements OnInit {
       addOn: 0,
       investmentAmount: null,
       investmentId: 0,
-      months: null,
+      period: null,
       paymentDate: null,
       profitAmount: null,
       totalPayableAmount: null,
@@ -315,9 +315,9 @@ export class InitialInvestmentComponent implements OnInit {
   selectScheme(e: any) {
     let value = Number(e.target.value);
     if (value == 1) {
-      this.investmentForm.get("months").setValue(20);
+      this.investmentForm.get("period").setValue(20);
     } else {
-      this.investmentForm.get("months").setValue(14);
+      this.investmentForm.get("period").setValue(14);
     }
   }
 
@@ -372,17 +372,17 @@ export class InitialInvestmentComponent implements OnInit {
     let totalProfitAmt = Number(profitAmt) + Number(addon) + Number(principalAmt);
     this.investmentForm.get("totalProfitAmount").setValue(totalProfitAmt);
 
-    let month =  Number(this.investmentForm.get("months").value);
+    let month =  Number(this.investmentForm.get("period").value);
     this.investmentForm.get("totalPayableAmount").setValue(totalProfitAmt * month);
   }
 }
 
 interface Inventory {
-  inventoryId: number;
-  inventoryName: string;
+  cdProductId: number;
+  productName: string;
   emiAmount: number;
-  onRoadPrice: number;
-  months: number;
+  finalPrice: number;
+  period: number;
   downPayment: number;
   loanAmount: number;
   totalPayableAmount: number;
@@ -402,7 +402,7 @@ interface Investment {
   investmentAmount: number;
   profitAmount: number;
   addOn: number;
-  months: number;
+  period: number;
   paymentDate: Date;
   totalPayableAmount: number;
   scheme: number;

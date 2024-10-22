@@ -185,7 +185,7 @@
               </div>
               <div class="col-md-4">
                 <label class="form-label">No. of Months</label>
-                <input type="number" class="form-control" readonly formControlName="months" placeholder="No. of Months">
+                <input type="number" class="form-control" readonly formControlName="period" placeholder="No. of Months">
               </div>
               <div class="col-md-4">
                 <label class="form-label">Total Payable Amount</label>
@@ -198,13 +198,13 @@
             <div class="row mt-3">
               <div class="col-md-4">
                 <label class="form-label">{{active == 1 ? 'Product Name' : active == 2 ? "Two-wheeler's" :  "Four-wheeler's"}} <span class="text-danger">*</span></label>
-                <input type="text" class="form-control" formControlName="inventoryName" maxlength="50" placeholder="Two-wheeler's Name"
-                  [ngClass]="{'error-field': isSubmitted && n.inventoryName.errors !== null && n.inventoryName.errors.required}">
+                <input type="text" class="form-control" formControlName="productName" maxlength="50" placeholder="Two-wheeler's Name"
+                  [ngClass]="{'error-field': isSubmitted && n.productName.errors !== null && n.productName.errors.required}">
               </div>
               <div class="col-md-4">
                 <label class="form-label">On-Road Price <span class="text-danger">*</span></label>
-                <input type="number" class="form-control" formControlName="onRoadPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
-                [ngClass]="{'error-field': isSubmitted && n.onRoadPrice.errors !== null && n.onRoadPrice.errors.required}">
+                <input type="number" class="form-control" formControlName="finalPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
+                [ngClass]="{'error-field': isSubmitted && n.finalPrice.errors !== null && n.finalPrice.errors.required}">
               </div>
               <div class="col-md-4">
                 <label class="form-label">Emi Amount <span class="text-danger">*</span></label>
@@ -222,8 +222,8 @@
                 <div class="row">
                   <div class="col-md-6">
                     <label class="form-label">No. of Months <span class="text-danger">*</span></label>
-                    <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
-                    [ngClass]="{'error-field': isSubmitted && n.months.errors !== null && n.months.errors.required}">
+                    <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="period" placeholder="No. of Months"
+                    [ngClass]="{'error-field': isSubmitted && n.period.errors !== null && n.period.errors.required}">
                   </div>
                   <div class="col-md-6">
                     <label class="form-label">Percentage <span class="text-danger">*</span></label>
@@ -334,7 +334,7 @@
             <div class="row mt-3">
               <div class="col-md-6">
                 <label class="form-label">Four-Wheeler's Name</label>
-                <input class="form-control" [value]="customerInventoryDetail.inventoryName" type="text" readonly>
+                <input class="form-control" [value]="customerInventoryDetail.productName" type="text" readonly>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Deposit Date</label>
@@ -400,7 +400,7 @@
             <div class="row mt-3">
               <div class="col-md-6">
                 <label class="form-label">Investment Period (month)</label>
-                <input class="form-control" [value]="customerInvestmentDetail.months | number:'2.0'" type="text" readonly>
+                <input class="form-control" [value]="customerInvestmentDetail.period | number:'2.0'" type="text" readonly>
               </div>
               <div class="col-md-6">
                 <label class="form-label">Principal Amount</label>
