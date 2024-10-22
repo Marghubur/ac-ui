@@ -65,7 +65,7 @@
                           {{user.firstName | slice: 0:2 | titlecase}}
                          </div> -->
                       </div>
-                      <span class="ps-2" (click)="EditCurrent(investment)">{{investment.firstName}}
+                      <span class="ps-2">{{investment.firstName}}
                         {{investment.lastName}}
                         <small class="text-muted text-decoration-none ps-2">
                           [A/C Id: {{investment.accountId}}]
@@ -75,12 +75,12 @@
                   </div>
                   <div class="td align-middle ">
                     <div class="cell-wrapper">
-                      {{investment.investmentAmount}}
+                      <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.investmentAmount | number : '1.2-2'}}
                     </div>
                   </div>
                   <div class="td align-middle">
                     <div class="cell-wrapper">
-                      {{investment.totalProfitAmount}}
+                      <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.totalProfitAmount | number : '1.2-2'}}
                     </div>
                   </div>
                   <div class="td align-middle">
