@@ -4,7 +4,7 @@ import { BtRecordNotFoundComponent } from '../../util/bt-record-not-found/bt-rec
 import { CoreHttpService } from '../../../providers/AjaxServices/core-http.service';
 import { Filter } from '../../../providers/userService';
 import { ResponseModel } from '../../../auth/jwtService';
-import { Toast } from '../../../providers/common-service/common.service';
+import { HideModal, ShowModal, Toast } from '../../../providers/common-service/common.service';
 import { PaginationComponent } from '../../util/pagination/pagination.component';
 import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component';
 import { FormsModule } from '@angular/forms';
@@ -38,9 +38,11 @@ export class UserComponent implements OnInit {
   }
   orderByNameAsc: boolean = null;
   orderByMobileAsc: boolean = null;
-  orderByAccountAsc: boolean = null;
+  orderByAadharAsc: boolean = null;
   isFileFound: boolean = false;
   isInitialLoad: boolean = false;
+  isLoading: boolean = false;
+  noOfRecord: number = 100;
 
   constructor(private layout: LayoutComponent,
               private http: CoreHttpService,
@@ -58,7 +60,7 @@ export class UserComponent implements OnInit {
     this.isPageReady = false;
     this.layout.startSkeleton();
     this.isFileFound = false;
-    this.http.post("user/filterUser", this.userData).then((res: ResponseModel) => {
+    this.http.post("user/filterUser", this.userData,).then((res: ResponseModel) => {
       if (res.ResponseBody) {
         this.users = res.ResponseBody;
         if (this.users && this.users.length > 0) {
@@ -147,14 +149,14 @@ export class UserComponent implements OnInit {
     if (FieldName == 'firstName') {
       this.orderByNameAsc = !flag;
       this.orderByMobileAsc = null;
-      this.orderByAccountAsc = null;
+      this.orderByAadharAsc = null;
     } else if (FieldName == 'mobileNumber') {
       this.orderByMobileAsc = !flag;
-      this.orderByAccountAsc = null;
+      this.orderByAadharAsc = null;
       this.orderByNameAsc = null;
     }
-    if (FieldName == 'accountId') {
-      this.orderByAccountAsc = !flag;
+    if (FieldName == 'aadharNumber') {
+      this.orderByAadharAsc = !flag;
       this.orderByNameAsc = null;
       this.orderByMobileAsc = null;
     }
@@ -193,6 +195,48 @@ export class UserComponent implements OnInit {
 
   viewInvestment(user: user) {
     this.nav.navigate(UserInvestment, user);
+  }
+
+  openDownloadExcelPopup() {
+    ShowModal("downloadExcelModal");
+  }
+
+  downloadExcel() {
+    this.isLoading = true;
+    
+    let filter = new Filter();
+    filter.searchString = this.userData.searchString;
+    filter.sortBy = this.userData.sortBy;
+    filter.pageSize = Number(this.noOfRecord);
+
+    this.http.post("user/downloadUserExcel", filter).then((res:ResponseModel) => {
+      if (res.ResponseBody) {
+        const base64String = res.ResponseBody;
+        const binaryString = atob(base64String);
+        const len = binaryString.length;
+        const bytes = new Uint8Array(len);
+
+        for (let i = 0; i < len; i++) {
+          bytes[i] = binaryString.charCodeAt(i);
+        }
+
+        const blob = new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'users.xlsx'; // Specify the filename
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+        this.isLoading = false;
+        this.noOfRecord = 100;
+        HideModal("downloadExcelModal");
+      }
+    }).catch(e => {
+      this.isLoading = false;
+      this.noOfRecord = 100;
+    })
   }
 }
 

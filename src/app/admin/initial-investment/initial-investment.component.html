@@ -29,8 +29,8 @@
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <label class="form-label">Two-wheeler's Name <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" formControlName="inventoryName" maxlength="50" placeholder="Two-wheeler's Name"
-                            [ngClass]="{'error-field': isSubmitted && f.inventoryName.errors !== null && f.inventoryName.errors.required}">
+                          <input type="text" class="form-control" formControlName="productName" maxlength="50" placeholder="Two-wheeler's Name"
+                            [ngClass]="{'error-field': isSubmitted && f.productName.errors !== null && f.productName.errors.required}">
                         </div>
                         <div class="col-md-6">
                           <label class="form-label">Emi Amount <span class="text-danger">*</span></label>
@@ -41,14 +41,14 @@
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <label class="form-label">On-Road Price <span class="text-danger">*</span></label>
-                          <input type="number" class="form-control" formControlName="onRoadPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
-                          [ngClass]="{'error-field': isSubmitted && f.onRoadPrice.errors !== null && f.onRoadPrice.errors.required}">
+                          <input type="number" class="form-control" formControlName="finalPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
+                          [ngClass]="{'error-field': isSubmitted && f.finalPrice.errors !== null && f.finalPrice.errors.required}">
                         </div>
                         <div class="col-md-6 row">
                           <div class="col-md-6">
                             <label class="form-label">No. of Months <span class="text-danger">*</span></label>
-                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
-                            [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="period" placeholder="No. of Months"
+                            [ngClass]="{'error-field': isSubmitted && f.period.errors !== null && f.period.errors.required}">
                           </div>
                           <div class="col-md-6">
                             <label class="form-label">Percentage <span class="text-danger">*</span></label>
@@ -126,7 +126,7 @@
                     <div class="row mt-3">
                       <div class="col-md-6">
                         <label class="form-label">Two-Wheeler's Name</label>
-                        <input class="form-control" [value]="customerInventoryDetail.inventoryName" type="text" readonly>
+                        <input class="form-control" [value]="customerInventoryDetail.productName" type="text" readonly>
                       </div>
                       <div class="col-md-6">
                         <label class="form-label">Deposit Date</label>
@@ -177,8 +177,8 @@
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <label class="form-label">Product Name <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" formControlName="inventoryName" maxlength="50" placeholder="Two-wheeler's Name"
-                            [ngClass]="{'error-field': isSubmitted && f.inventoryName.errors !== null && f.inventoryName.errors.required}">
+                          <input type="text" class="form-control" formControlName="productName" maxlength="50" placeholder="Two-wheeler's Name"
+                            [ngClass]="{'error-field': isSubmitted && f.productName.errors !== null && f.productName.errors.required}">
                         </div>
                         <div class="col-md-6">
                           <label class="form-label">Emi Amount <span class="text-danger">*</span></label>
@@ -189,14 +189,14 @@
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <label class="form-label">On-Road Price <span class="text-danger">*</span></label>
-                          <input type="number" class="form-control" formControlName="onRoadPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
-                          [ngClass]="{'error-field': isSubmitted && f.onRoadPrice.errors !== null && f.onRoadPrice.errors.required}">
+                          <input type="number" class="form-control" formControlName="finalPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
+                          [ngClass]="{'error-field': isSubmitted && f.finalPrice.errors !== null && f.finalPrice.errors.required}">
                         </div>
                         <div class="col-md-6 row">
                           <div class="col-md-6">
                             <label class="form-label">No. of Months <span class="text-danger">*</span></label>
-                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
-                            [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="period" placeholder="No. of Months"
+                            [ngClass]="{'error-field': isSubmitted && f.period.errors !== null && f.period.errors.required}">
                           </div>
                           <div class="col-md-6">
                             <label class="form-label">Percentage <span class="text-danger">*</span></label>
@@ -274,7 +274,7 @@
                     <div class="row mt-3">
                       <div class="col-md-6">
                         <label class="form-label">Product Name</label>
-                        <input class="form-control" [value]="customerInventoryDetail.inventoryName" type="text" readonly>
+                        <input class="form-control" [value]="customerInventoryDetail.productName" type="text" readonly>
                       </div>
                       <div class="col-md-6">
                         <label class="form-label">Deposit Date</label>
@@ -325,8 +325,8 @@
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <label class="form-label">Four-Wheeler's Name <span class="text-danger">*</span></label>
-                          <input type="text" class="form-control" formControlName="inventoryName" maxlength="50" placeholder="Two-wheeler's Name"
-                            [ngClass]="{'error-field': isSubmitted && f.inventoryName.errors !== null && f.inventoryName.errors.required}">
+                          <input type="text" class="form-control" formControlName="productName" maxlength="50" placeholder="Two-wheeler's Name"
+                            [ngClass]="{'error-field': isSubmitted && f.productName.errors !== null && f.productName.errors.required}">
                         </div>
                         <div class="col-md-6">
                           <label class="form-label">Emi Amount <span class="text-danger">*</span></label>
@@ -337,14 +337,14 @@
                       <div class="row mt-3">
                         <div class="col-md-6">
                           <label class="form-label">On-Road Price <span class="text-danger">*</span></label>
-                          <input type="number" class="form-control" formControlName="onRoadPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
-                          [ngClass]="{'error-field': isSubmitted && f.onRoadPrice.errors !== null && f.onRoadPrice.errors.required}">
+                          <input type="number" class="form-control" formControlName="finalPrice" (input)="calculateLoanAmount()" OnlyNumber="10" placeholder="On-Road Price"
+                          [ngClass]="{'error-field': isSubmitted && f.finalPrice.errors !== null && f.finalPrice.errors.required}">
                         </div>
                         <div class="col-md-6 row">
                           <div class="col-md-6">
                             <label class="form-label">No. of Months <span class="text-danger">*</span></label>
-                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="months" placeholder="No. of Months"
-                            [ngClass]="{'error-field': isSubmitted && f.months.errors !== null && f.months.errors.required}">
+                            <input type="number" OnlyNumber="3" class="form-control" (input)="calculateTotalPayableAmount()" formControlName="period" placeholder="No. of Months"
+                            [ngClass]="{'error-field': isSubmitted && f.period.errors !== null && f.period.errors.required}">
                           </div>
                           <div class="col-md-6">
                             <label class="form-label">Percentage <span class="text-danger">*</span></label>
@@ -422,7 +422,7 @@
                     <div class="row mt-3">
                       <div class="col-md-6">
                         <label class="form-label">Four-Wheeler's Name</label>
-                        <input class="form-control" [value]="customerInventoryDetail.inventoryName" type="text" readonly>
+                        <input class="form-control" [value]="customerInventoryDetail.productName" type="text" readonly>
                       </div>
                       <div class="col-md-6">
                         <label class="form-label">Deposit Date</label>
@@ -526,7 +526,7 @@
                         </div>
                         <div class="col-md-6">
                           <label class="form-label">No. of Months</label>
-                          <input type="number" class="form-control" readonly formControlName="months" placeholder="No. of Months">
+                          <input type="number" class="form-control" readonly formControlName="period" placeholder="No. of Months">
                         </div>
                       </div>
                       <div class="row mt-3">
@@ -567,7 +567,7 @@
                     <div class="row mt-3">
                       <div class="col-md-6">
                         <label class="form-label">Investment Period (months)</label>
-                        <input class="form-control" type="text" readonly [value]="customerInvestmentDetail.months">
+                        <input class="form-control" type="text" readonly [value]="customerInvestmentDetail.period">
                       </div>
                       <div class="col-md-6">
                         <label class="form-label">Payment Amount</label>

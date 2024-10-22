@@ -76,8 +76,8 @@
                           </div>
                         </div>
                         <div class="t-body">
-                            @if (this.inventoryDetail.length > 0) {
-                                @for (item of inventoryDetail; track $index) {
+                            @if (this.cdProductInvestment.length > 0) {
+                                @for (item of cdProductInvestment; track $index) {
                                     <div class="tr py-2">
                                         <div class="td fe-index">
                                             <div class="cell-wrapper">
@@ -86,7 +86,7 @@
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.inventoryName}}
+                                                {{item.productName}}
                                             </div>
                                         </div>
                                         <div class="td">
@@ -96,7 +96,7 @@
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.months | number:'2.0'}}
+                                                {{item.period | number:'2.0'}}
                                             </div>
                                         </div>
                                         <div class="td">
@@ -229,7 +229,7 @@
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.months | number:'2.0'}}
+                                                {{item.period | number:'2.0'}}
                                             </div>
                                         </div>
                                         <div class="td">
@@ -307,7 +307,7 @@
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">Four-Wheeler's Name</label>
-                  <input class="form-control" [value]="customerInventoryDetail.inventoryName" type="text" readonly>
+                  <input class="form-control" [value]="customerInventoryDetail.productName" type="text" readonly>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Deposit Date</label>
@@ -373,7 +373,7 @@
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">Investment Period (month)</label>
-                  <input class="form-control" [value]="customerInvestmentDetail.months | number:'2.0'" type="text" readonly>
+                  <input class="form-control" [value]="customerInvestmentDetail.period | number:'2.0'" type="text" readonly>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Principal Amount</label>

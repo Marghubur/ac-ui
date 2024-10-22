@@ -48,7 +48,7 @@ export class MasterDataComponent implements OnInit {
   }
 
   getEmployeeAndInvestmentSampleFile() {
-    let sampleFilePath = "https://www.bottomhalf.in/bts/resources/applications/axil/axilcorps.xlsx";
+    let sampleFilePath = "https://www.bottomhalf.in/bts/resources/applications/axil/reg-payment.xlsx";
     const a = document.createElement('a');
     a.href = sampleFilePath;
     a.download = 'EmployeeAndInvestmentSample.xlsx';

@@ -59,18 +59,21 @@
             </div>
             <div class="th fe-3">
               <div class="cell-wrapper">
-                <input class="form-control  form-control-sm" (keyup.enter)="filterRecords(emailInputElement)" type="email" maxlength="10"
-                  (keydown.esc)="resetFilter()" [(ngModel)]="userDetail.emailId" placeholder="Search by Email" #emailInputElement>
-                <div class="t-filter" (click)="arrangeDetails(orderByAccountAsc, 'accountId')">
-                  <a href="javascript:void(0)" class="pe-2">Account No.</a>
+                <input class="form-control  form-control-sm" (keyup.enter)="filterRecords(aadharInputElement)" type="text" maxlength="12"
+                  (keydown.esc)="resetFilter()" [(ngModel)]="userDetail.emailId" placeholder="Search by Aadhar Number" #aadharInputElement>
+                <div class="t-filter" (click)="arrangeDetails(orderByAadharAsc, 'aadharNumber')">
+                  <a href="javascript:void(0)" class="pe-2">Aadhar No.</a>
                   <i class="fa-solid fa-arrow-down-wide-short"
-                    [ngClass]="{'d-none': orderByAccountAsc == null || !orderByAccountAsc }" aria-hidden="true"></i>
+                    [ngClass]="{'d-none': orderByAadharAsc == null || !orderByAadharAsc }" aria-hidden="true"></i>
                   <i class="fa-solid fa-arrow-down-short-wide"
-                    [ngClass]="{'d-none': orderByAccountAsc == null || orderByAccountAsc }" aria-hidden="true"></i>
+                    [ngClass]="{'d-none': orderByAadharAsc == null || orderByAadharAsc }" aria-hidden="true"></i>
                 </div>
               </div>
             </div>
             <div class="th fe-1 text-center">
+              <a href="javascript:void(0)" (click)="openDownloadExcelPopup()" data-bs-toggle="tooltip" data-bs-placement="right" title="Download Excel">
+                <i class="fa-regular fa-file-excel"></i>
+              </a>
               <div class="cell-wrapper">
                 <div>ACTIONS</div>
               </div>
@@ -103,7 +106,7 @@
               </div>
               <div class="td align-middle fe-3">
                 <div class="cell-wrapper">
-                  {{user.accountId}}
+                  {{user.aadharNumber}}
                 </div>
               </div>
               <div class="td align-middle fe-1">
@@ -137,5 +140,41 @@
         <app-pagination [pagination]="userData" (onPageChange)="GetFilterResult($event)"></app-pagination>
       </div>
     }
+  </div>
+</div>
+
+<!--Download Excel Modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="downloadExcelModal" tabindex="-1" aria-labelledby="downloadExcelModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content px-3">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="downloadExcelModalLabel">Download Excel</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <label class="form-label">No of Records</label>
+          <select class="form-select" [(ngModel)]="noOfRecord">
+            <option [value]="100">100</option>
+            <option [value]="200">200</option>
+            <option [value]="300">300</option>
+            <option [value]="400">400</option>
+            <option [value]="500">500</option>
+            <option [value]="600">600</option>
+            <option [value]="700">700</option>
+            <option [value]="800">800</option>
+            <option [value]="900">900</option>
+            <option [value]="1000">1000</option>
+          </select>
+        </div>
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button class="btn btn-success"(click)="downloadExcel()">
+          <i class="fa-solid" [ngClass]="{'fa-spinner fa-spin': isLoading, 'fa-download': !isLoading}"></i>
+          <span class="ps-1">Download Excel</span>
+        </button>
+      </div>
+    </div>
   </div>
 </div>
