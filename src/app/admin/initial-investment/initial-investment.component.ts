@@ -10,7 +10,7 @@ import { autoCompleteModal, IautocompleteComponent, pairData } from '../../util/
 import { Filter } from '../../../providers/userService';
 import { CoreHttpService } from '../../../providers/AjaxServices/core-http.service';
 import { ResponseModel } from '../../../auth/jwtService';
-import { user } from '../user/user.component';
+import { CDProduct, Investment, user } from '../../adminInterfacemodal/admin-interface-modals';
 
 @Component({
   selector: 'app-initial-investment',
@@ -22,7 +22,7 @@ import { user } from '../user/user.component';
 export class InitialInvestmentComponent implements OnInit {
   active = 1;
   inventoryForm: FormGroup;
-  cdProductInvestment: Inventory = {
+  cdProductInvestment: CDProduct = {
     cdProductId: 0,
     productName: "",
     emiAmount: null,
@@ -53,7 +53,7 @@ export class InitialInvestmentComponent implements OnInit {
   };
   model: NgbDateStruct;
   paymentModel: NgbDateStruct;
-  customerInventoryDetail: Inventory = {
+  customerInventoryDetail: CDProduct = {
     cdProductId: 0,
     productName: "",
     emiAmount: null,
@@ -162,7 +162,7 @@ export class InitialInvestmentComponent implements OnInit {
     this.inventoryForm.get("emiEndDate").setValue(emiEnddate);
     this.inventoryForm.get("userId").setValue(this.userId);
 
-    this.http.post("inventory/addInventory", this.inventoryForm.value).then((res: ResponseModel) => {
+    this.http.post("cdproduct/addCDProductInvestment", this.inventoryForm.value).then((res: ResponseModel) => {
       if (res.ResponseBody) {
         this.resetInventoryDetail();
         this.customerInventoryDetail = res.ResponseBody;
@@ -375,40 +375,4 @@ export class InitialInvestmentComponent implements OnInit {
     let month =  Number(this.investmentForm.get("period").value);
     this.investmentForm.get("totalPayableAmount").setValue(totalProfitAmt * month);
   }
-}
-
-interface Inventory {
-  cdProductId: number;
-  productName: string;
-  emiAmount: number;
-  finalPrice: number;
-  period: number;
-  downPayment: number;
-  loanAmount: number;
-  totalPayableAmount: number;
-  payableAmountToOffice: number;
-  emiStartDate: Date;
-  emiEndDate?: Date;
-  firstName?: string;
-  lastName?: string;
-  accountId?: string;
-  depositDate?: Date;
-  userId: number;
-  percentage: number
-}
-
-interface Investment {
-  investmentId: number,
-  investmentAmount: number;
-  profitAmount: number;
-  addOn: number;
-  period: number;
-  paymentDate: Date;
-  totalPayableAmount: number;
-  scheme: number;
-  firstName?: string;
-  lastName?: string;
-  accountId?: string;
-  totalProfitAmount: number;
-  principalAmount: number;
 }

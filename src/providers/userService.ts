@@ -50,5 +50,6 @@ export class Filter {
     this.pageIndex = 1;
     this.activePageNumber = 1;
     this.sortDirection = null;
+    this.searchString = "1=1";
   }
 }

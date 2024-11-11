@@ -23,12 +23,12 @@
                                     #
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     Product Name
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     Emi Amount
                                 </div>
@@ -38,37 +38,37 @@
                                     Month
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     Down Payment
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     EMI Start Date
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     EMI End Date
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     Loan Amount
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     Payable Amount
                                 </div>
                             </div>
-                            <div class="th">
+                            <div class="th fe-2">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     Deposit Date
                                 </div>
                             </div>
-                            <div class="th fe-index">
+                            <div class="th">
                                 <div class="cell-wrapper fw-bold text-primary-dc">
                                     Action
                                 </div>
@@ -84,14 +84,14 @@
                                                 {{$index + 1}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
                                                 {{item.productName}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
-                                                {{item.emiAmount | number : '1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.emiAmount | number : '1.2-2'}}
                                             </div>
                                         </div>
                                         <div class="td">
@@ -99,40 +99,45 @@
                                                 {{item.period | number:'2.0'}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
-                                                {{item.downPayment | number : '1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.downPayment | number : '1.2-2'}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
                                                 {{item.emiStartDate | date}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
                                                 {{item.emiEndDate | date}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
-                                                {{item.loanAmount | number : '1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.loanAmount | number : '1.2-2'}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
-                                                {{item.totalPayableAmount | number : '1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.totalPayableAmount | number : '1.2-2'}}
                                             </div>
                                         </div>
-                                        <div class="td">
+                                        <div class="td fe-2">
                                             <div class="cell-wrapper">
                                                 {{item.depositDate | date}}
                                             </div>
                                         </div>
-                                        <div class="td fe-index">
+                                        <div class="td">
                                             <div class="cell-wrapper">
                                                 <a href="javascript:void(0)" (click)="viewInventory(item)">
                                                     <i class="fa-regular fa-eye"></i>
+                                                </a>
+                                                <a href="javascript:void(0)" class="ms-3" (click)="viewCDProductPaymentDetail(item)" data-bs-toggle="tooltip" data-bs-placement="right" title="View Payment Detail">
+                                                  <span class="badge bg-success">
+                                                    <i class="fa-solid fa-money-bill-transfer"></i>
+                                                  </span>
                                                 </a>
                                             </div>
                                         </div>
@@ -214,42 +219,42 @@
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.investmentAmount | number : '1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.investmentAmount | number : '1.2-2'}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.principalAmount | number : '1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.principalAmount | number : '1.2-2'}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.profitAmount | number : '1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.profitAmount | number : '1.2-2'}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.period | number:'2.0'}}
+                                              {{item.period | number:'2.0'}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.totalProfitAmount | number:'1.2-2'}}
+                                              <i class="fa-solid fa-indian-rupee-sign pe-2"></i>{{item.totalProfitAmount | number:'1.2-2'}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.investmentDate | date}}
+                                              {{item.investmentDate | date}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.istPaymentDate | date}}
+                                              {{item.istPaymentDate | date}}
                                             </div>
                                         </div>
                                         <div class="td">
                                             <div class="cell-wrapper">
-                                                {{item.lastPaymentDate | date}}
+                                              {{item.lastPaymentDate | date}}
                                             </div>
                                         </div>
                                         <div class="td fe-index">
@@ -289,50 +294,50 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          @if (customerInventoryDetail.firstName != null && customerInventoryDetail.firstName != "") {
+          @if (customerCDProductDetail.firstName != null && customerCDProductDetail.firstName != "") {
             <div class="x_panel_body">
               <div class="row mt-3">
                 <div class="col-md-6 d-flex align-items-center">
                   <label class="form-label pe-2 fw-bold text-dark">A/C No.: </label>
                   <div class="col-auto">
-                    <input class="form-control fw-bold" type="text" readonly [value]="customerInventoryDetail.accountId">
+                    <input class="form-control fw-bold" type="text" readonly [value]="customerCDProductDetail.accountId">
                   </div>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">Name of Customer</label>
-                  <input class="form-control" [value]="customerInventoryDetail.firstName + ' ' + customerInventoryDetail.lastName" type="text" readonly>
+                  <input class="form-control" [value]="customerCDProductDetail.firstName + ' ' + customerCDProductDetail.lastName" type="text" readonly>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Your Payable Amount to Office</label>
-                  <input class="form-control" [value]="customerInventoryDetail.payableAmountToOffice | number:'1.2-2'" type="text" readonly>
+                  <input class="form-control" [value]="customerCDProductDetail.payableAmountToOffice | number:'1.2-2'" type="text" readonly>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">Four-Wheeler's Name</label>
-                  <input class="form-control" [value]="customerInventoryDetail.productName" type="text" readonly>
+                  <input class="form-control" [value]="customerCDProductDetail.productName" type="text" readonly>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Deposit Date</label>
-                  <input class="form-control" [value]="customerInventoryDetail.depositDate | date" type="text" readonly>
+                  <input class="form-control" [value]="customerCDProductDetail.depositDate | date" type="text" readonly>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">EMI Starting Date</label>
-                  <input class="form-control" [value]="customerInventoryDetail.emiStartDate | date" type="text" readonly>
+                  <input class="form-control" [value]="customerCDProductDetail.emiStartDate | date" type="text" readonly>
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">EMI Ending Date</label>
-                  <input class="form-control" [value]="customerInventoryDetail.emiEndDate | date" type="text" readonly>
+                  <input class="form-control" [value]="customerCDProductDetail.emiEndDate | date" type="text" readonly>
                 </div>
               </div>
               <div class="row mt-3">
                 <div class="col-md-6">
                   <label class="form-label">EMI Amount</label>
-                  <input class="form-control" [value]="customerInventoryDetail.emiAmount | number:'1.2-2'" type="text" readonly>
+                  <input class="form-control" [value]="customerCDProductDetail.emiAmount | number:'1.2-2'" type="text" readonly>
                 </div>
               </div>
             </div>
@@ -434,11 +439,11 @@
   </div>
 
   <!--View Payment Detial Modal -->
-<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="viewInvestmentPaymentModal" tabindex="-1" aria-labelledby="viewInvestmentPaymentModalLabel" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="viewPaymentModal" tabindex="-1" aria-labelledby="viewPaymentModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg modal-dialog-centered">
     <div class="modal-content px-3">
       <div class="modal-header border-bottom-0">
-        <h1 class="modal-title fs-5" id="viewInvestmentPaymentModalLabel">All Payment Details</h1>
+        <h1 class="modal-title fs-5" id="viewPaymentModalLabel">All Payment Details</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -449,7 +454,7 @@
                 <th>Installment No.</th>
                 <th>Amount</th>
                 <th>IsPaid</th>
-                <th>Payment/Expected Date</th>
+                <th>Payment Date</th>
               </tr>
             </thead>
             <tbody>
