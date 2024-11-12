@@ -6,13 +6,11 @@ import { BreadcrumsComponent } from '../../util/breadcrums/breadcrums.component'
 import { BtRecordNotFoundComponent } from '../../util/bt-record-not-found/bt-record-not-found.component';
 import { PaginationComponent } from '../../util/pagination/pagination.component';
 import { ResponseModel } from '../../../auth/jwtService';
-import { Inventory, Investment } from '../manage-user/manage-user.component';
-import { user } from '../user/user.component';
 import { ErrorToast, ShowModal, ToLocateDate } from '../../../providers/common-service/common.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
-import { PaymentDetail } from '../daily-transaction/daily-transaction.component';
+import { CDProduct, Investment, PaymentDetail, user } from '../../adminInterfacemodal/admin-interface-modals';
 
 @Component({
   selector: 'app-user-investment',
@@ -23,10 +21,10 @@ import { PaymentDetail } from '../daily-transaction/daily-transaction.component'
 })
 export class UserInvestmentComponent implements OnInit {
   isPageReady: boolean = false;
-  cdProductInvestment: Array<Inventory> = [];
+  cdProductInvestment: Array<CDProduct> = [];
   investmentDetail: Array<Investment> = [];
   private currentUser: user = null;
-  customerInventoryDetail: Inventory = {
+  customerCDProductDetail: CDProduct = {
     cdProductId: 0,
     productName: "",
     emiAmount: null,
@@ -64,6 +62,7 @@ export class UserInvestmentComponent implements OnInit {
   };
   active: number = 1;
   paymentDetails: Array<PaymentDetail> = [];
+  isLoading: boolean = false;
 
   constructor(private layout: LayoutComponent,
               private http: CoreHttpService,
@@ -84,7 +83,7 @@ export class UserInvestmentComponent implements OnInit {
 
   loadInventoryData() {
     this.isPageReady = false;
-    this.http.get(`inventory/getInventory/${this.currentUser.userId}`).then((res:ResponseModel) => {
+    this.http.get(`cdproduct/getCDProductInvestment/${this.currentUser.userId}`).then((res:ResponseModel) => {
       if (res.ResponseBody) {
         this.cdProductInvestment = res.ResponseBody;
         if (this.cdProductInvestment.length > 0) {
@@ -124,12 +123,12 @@ export class UserInvestmentComponent implements OnInit {
     })
   }
 
-  viewInventory(item: Inventory) {
-    this.customerInventoryDetail = item;
-    this.customerInventoryDetail.firstName = this.currentUser.firstName;
-    this.customerInventoryDetail.lastName = this.currentUser.lastName;
-    this.customerInventoryDetail.payableAmountToOffice = (this.customerInventoryDetail.loanAmount * this.customerInventoryDetail.percentage) / 100;
-    this.customerInventoryDetail.accountId = this.currentUser.accountId;
+  viewInventory(item: CDProduct) {
+    this.customerCDProductDetail = item;
+    this.customerCDProductDetail.firstName = this.currentUser.firstName;
+    this.customerCDProductDetail.lastName = this.currentUser.lastName;
+    this.customerCDProductDetail.payableAmountToOffice = (this.customerCDProductDetail.loanAmount * this.customerCDProductDetail.percentage) / 100;
+    this.customerCDProductDetail.accountId = this.currentUser.accountId;
     ShowModal("InventoryCustomerViewModal");
   }
 
@@ -182,10 +181,16 @@ export class UserInvestmentComponent implements OnInit {
   }
 
   viewPaymentDetail(investmentDetail: Investment) {
-    if (investmentDetail && investmentDetail.paymentDetail) {
-      this.paymentDetails = [];
-      this.paymentDetails = JSON.parse(investmentDetail.paymentDetail);
-      ShowModal("viewInvestmentPaymentModal");
+    this.paymentDetails = [];
+    if (investmentDetail && investmentDetail.investmentId > 0) {
+      this.isLoading = true;
+      this.http.get(`paymentDetail/getInvestmentPaymentDetail/${investmentDetail.investmentId}`).then((res:ResponseModel) => {
+        if (res.ResponseBody) {
+          this.paymentDetails = res.ResponseBody;
+          this.isLoading = false;
+          ShowModal("viewPaymentModal");
+        }
+      })
     }
   }
 
@@ -206,6 +211,20 @@ export class UserInvestmentComponent implements OnInit {
       return value + suffix;
     } else {
       return "Last";
+    }
+  }
+
+  viewCDProductPaymentDetail(cdProduct: CDProduct) {
+    this.paymentDetails = [];
+    if (cdProduct && cdProduct.cdProductId > 0) {
+      this.isLoading = true;
+      this.http.get(`paymentDetail/getCDPaymentDetail/${cdProduct.cdProductId}`).then((res:ResponseModel) => {
+        if (res.ResponseBody) {
+          this.paymentDetails = res.ResponseBody;
+          this.isLoading = false;
+          ShowModal("viewPaymentModal");
+        }
+      })
     }
   }
 }

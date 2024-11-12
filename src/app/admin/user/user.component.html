@@ -91,12 +91,10 @@
                       {{user.firstName | slice: 0:2 | titlecase}}
                      </div> -->
                   </div>
-                  <a href="javascript:void(0)" class="ps-2" (click)="EditCurrent(user)">{{user.firstName}}
-                    {{user.lastName}}
-                    <small class="text-muted text-decoration-none ps-2">
-                      [Id: {{user.userId}}]
-                    </small>
-                  </a>
+                  {{user.firstName}} {{user.lastName}}
+                  <small class="text-muted text-decoration-none ps-2">
+                    [Id: {{user.userId}}]
+                  </small>
                 </div>
               </div>
               <div class="td align-middle fe-2">
@@ -121,7 +119,7 @@
                       <i class="fa-solid fa-sack-dollar"></i>
                     </span>
                   </a>
-                  <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Account">
+                  <a href="javascript:void(0)" (click)="deleteUserPopup()" data-bs-toggle="tooltip" data-bs-placement="right" title="Delete Account">
                     <span class="badge bg-danger">
                       <i class="fa-solid fa-trash-alt" aria-hidden="true"></i>
                     </span>
@@ -174,6 +172,17 @@
           <i class="fa-solid" [ngClass]="{'fa-spinner fa-spin': isLoading, 'fa-download': !isLoading}"></i>
           <span class="ps-1">Download Excel</span>
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--Under Modal -->
+<div class="modal fade" id="underConstructionModal" tabindex="-1" aria-labelledby="underConstructionModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content px-3">
+      <div class="modal-body text-center text-danger fw-bold fs-4">
+        This function is under construction and will be available soon.
       </div>
     </div>
   </div>

@@ -10,6 +10,7 @@ import { NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
 import { iNavigation } from '../../../providers/iNavigation';
 import { CoreHttpService } from '../../../providers/AjaxServices/core-http.service';
 import { ResponseModel } from '../../../auth/jwtService';
+import { CDProduct, Investment, InvestmentType, user } from '../../adminInterfacemodal/admin-interface-modals';
 
 @Component({
   selector: 'app-manage-user',
@@ -26,7 +27,7 @@ export class ManageUserComponent implements OnInit {
   private imageIndex: number = 0;
   model: NgbDateStruct;
   minDate: any = null;
-  private userDetail: User ={
+  private userDetail: user ={
     accountId: null,
     address: null,
     aadharNumber: null,
@@ -49,7 +50,7 @@ export class ManageUserComponent implements OnInit {
   @ViewChild('videoElement') videoElement!: ElementRef;
   active: number = null;
   inventoryForm: FormGroup;
-  cdProductInvestment: Inventory = {
+  cdProductInvestment: CDProduct = {
     cdProductId: 0,
     productName: "",
     emiAmount: null,
@@ -84,7 +85,7 @@ export class ManageUserComponent implements OnInit {
   };
   emiModel: NgbDateStruct;
   paymentModel: NgbDateStruct;
-  customerInventoryDetail: Inventory = {
+  customerCDProductDetail: CDProduct = {
     cdProductId: 0,
     productName: "",
     emiAmount: null,
@@ -277,7 +278,7 @@ export class ManageUserComponent implements OnInit {
         if (this.active == 4)
           this.bindCustomerInvestmentDetail(res.ResponseBody);
         else
-          this.bindCustomerInventoryDetail(res.ResponseBody);
+          this.bindCustomerCDProductDetail(res.ResponseBody);
 
         this.isLoading = false;
         this.isSubmitted = false;
@@ -289,22 +290,18 @@ export class ManageUserComponent implements OnInit {
     })
   }
 
-  private bindCustomerInventoryDetail(res: any) {
+  private bindCustomerCDProductDetail(res: any) {
     let payableAmountToOffice = this.inventoryForm.get("payableAmountToOffice").value;
     this.resetInventoryDetail();
-    this.customerInventoryDetail = res.cdProductInvestment;
-    this.customerInventoryDetail.accountId = res.accountId;
-    this.customerInventoryDetail.firstName = res.firstName;
-    this.customerInventoryDetail.lastName = res.lastName;
-    this.customerInventoryDetail.payableAmountToOffice = payableAmountToOffice;
-    this.customerInventoryDetail.emiStartDate = ToLocateDate(this.customerInventoryDetail.emiStartDate);
-    this.customerInventoryDetail.emiEndDate = ToLocateDate(this.customerInventoryDetail.emiEndDate);
-    this.customerInventoryDetail.depositDate = ToLocateDate(res.createdOn);
+    this.customerCDProductDetail = res.cdProductInvestment;
+    this.customerCDProductDetail.accountId = res.accountId;
+    this.customerCDProductDetail.firstName = res.firstName;
+    this.customerCDProductDetail.lastName = res.lastName;
+    this.customerCDProductDetail.payableAmountToOffice = payableAmountToOffice;
+    this.customerCDProductDetail.emiStartDate = ToLocateDate(this.customerCDProductDetail.emiStartDate);
+    this.customerCDProductDetail.emiEndDate = ToLocateDate(this.customerCDProductDetail.emiEndDate);
+    this.customerCDProductDetail.depositDate = ToLocateDate(res.createdOn);
     ShowModal("messageModal");
-    setTimeout(() => {
-      HideModal("messageModal");
-      ShowModal("InventoryCustomerModal")
-    }, 2000);
   }
 
   private bindCustomerInvestmentDetail(res: any) {
@@ -322,10 +319,6 @@ export class ManageUserComponent implements OnInit {
     this.customerInvestmentDetail.lastPaymentDate = ToLocateDate(this.customerInvestmentDetail.lastPaymentDate);
     this.customerInvestmentDetail.investmentDate = ToLocateDate(this.customerInvestmentDetail.investmentDate);
     ShowModal("messageModal");
-    setTimeout(() => {
-      HideModal("messageModal");
-      ShowModal("InvestmentCustomerModal")
-    }, 2000);
   }
 
   openCamera() {
@@ -465,7 +458,7 @@ export class ManageUserComponent implements OnInit {
       userId: 0,
       percentage: null
     };
-    this.customerInventoryDetail = {
+    this.customerCDProductDetail = {
       cdProductId: 0,
       productName: "",
       emiAmount: null,
@@ -605,68 +598,4 @@ export class ManageUserComponent implements OnInit {
       ErrorToast("Please add investment amount and month");
     }
   }
-}
-
-interface User {
-  userId: number;
-  firstName: string;
-  lastName: string;
-  mobileNumber: string;
-  ProfileImgPath: string;
-  aadharNumber: string;
-  emailId: string;
-  accountId: string;
-  dob: Date;
-  address: string;
-  referenceBy: string;
-  productType: number;
-}
-
-export interface Inventory {
-  cdProductId: number;
-  productName: string;
-  emiAmount: number;
-  finalPrice: number;
-  period: number;
-  downPayment: number;
-  loanAmount: number;
-  totalPayableAmount: number;
-  payableAmountToOffice: number;
-  emiStartDate: Date;
-  emiEndDate?: Date;
-  firstName?: string;
-  lastName?: string;
-  accountId?: string;
-  depositDate?: Date;
-  userId: number;
-  percentage: number;
-  createdOn?: Date;
-}
-
-export interface Investment {
-  investmentId: number;
-  investmentAmount: number;
-  addOn: number;
-  principalAmount: number;
-  profitAmount: number;
-  period: number;
-  totalProfitAmount: number;
-  totalPayableAmount: number;
-  istPaymentDate: Date;
-  lastPaymentDate: Date;
-  investmentDate: Date;
-  scheme: number;
-  paidInstallment: number;
-  firstName?: string;
-  lastName?: string;
-  accountId?: string;
-  total?: number;
-  paymentDetail?: string;
-  isPaid?: boolean;
-}
-
-interface InvestmentType {
-  investmentTypeId: number;
-  amount: number,
-  month: number;
 }

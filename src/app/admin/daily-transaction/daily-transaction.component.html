@@ -2,153 +2,363 @@
     <div class="content-header">
       <div class="col-6 d-flex">
         <div class="col-auto px-1">
-          <app-breadcrums [title]="'User detail'"></app-breadcrums>
+          <app-breadcrums [title]="'Daily transaction detail'"></app-breadcrums>
         </div>
       </div>
     </div>
 
     <div class="x_panel">
         <div class="x_content">
-          <div class="t-table t-list col-md-12">
-            <div class="t-head">
-              <div class="tr">
-                <div class="th fe-4">
-                    <div class="cell-wrapper">
-                    Name
-                    </div>
-                </div>
-                <div class="th fe-2">
-                    <div class="cell-wrapper">
-                    Investment Amount
-                    </div>
-                </div>
-                <div class="th fe-2">
-                    <div class="cell-wrapper">
-                        Total Profit Amount
-                    </div>
-                </div>
-                <div class="th fe-2">
-                    <div class="cell-wrapper">
-                        Period (months)
-                    </div>
-                </div>
-                <div class="th fe-2">
-                    <div class="cell-wrapper">
-                        Paid Installment
-                    </div>
-                </div>
-                <div class="th fe-2">
-                    <div class="cell-wrapper">
-                        Investment Date
-                    </div>
-                </div>
-                <div class="th fe-2">
-                  <div class="cell-wrapper">
-                      Last Payment Date
-                  </div>
-                </div>
-                <div class="th fe-2">
-                  <div class="cell-wrapper">
-                      Status
-                  </div>
-                </div>
-                <div class="th text-center fe-1">
-                  <div class="cell-wrapper">
-                    <div>ACTIONS</div>
-                  </div>
-                </div>
-              </div>
+          <div class="row mb-3">
+            <div class="col-md-4">
+              <input type="text" placeholder="Filter By Name" class="form-control" [(ngModel)]="transactionFilter.name" (keyup.enter)="fiterRecord()" (keydown.esc)="resetFilter()">
             </div>
-            <div class="t-body">
-              @if (isPageReady) {
-                <div class="tr py-2" *ngFor="let investment of investmentDetail; let i = index;">
-                  <div class="td align-middle fe-4">
-                    <div class="cell-wrapper">
-                      <div class="col-auto d-inline-block rounded-circle">
-                        <img src="assets/images/face.jpg" alt="profile" class="rounded-circle user-profile">
-                         <!-- <div class="user-profile fw-semibold rounded-circle text-dark d-flex align-items-center justify-content-center" [style.backgroundColor]="getBackgroundColor()">
-                          {{user.firstName | slice: 0:2 | titlecase}}
-                         </div> -->
+            <div class="col-md-2">
+              <form class="row row-cols-sm-auto">
+                <div class="input-group">
+                  <input
+                    class="form-control" readonly
+                    placeholder="Filter From Date"
+                    name="dp"
+                    [(ngModel)]="fromModel"
+                    ngbDatepicker (dateSelect)="onFromDateSelection($event)"
+                    #d="ngbDatepicker"
+                  />
+                  <button class="btn btn-outline-secondary" (click)="d.toggle()" type="button">
+                    <i class="fa-regular fa-calendar-days"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-2">
+              <form class="row row-cols-sm-auto">
+                <div class="input-group">
+                  <input
+                    class="form-control" readonly
+                    placeholder="Filter To Date"
+                    name="dp"
+                    [(ngModel)]="toModel"
+                    ngbDatepicker (dateSelect)="onToDateSelection($event)"
+                    #td="ngbDatepicker"
+                  />
+                  <button class="btn btn-outline-secondary" (click)="td.toggle()" type="button">
+                    <i class="fa-regular fa-calendar-days"></i>
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div class="col-auto">
+              <select class="form-select" [(ngModel)]="transactionFilter.status" (change)="fiterRecord()">
+                <option [value]="null" selected disabled>Select Status</option>
+                <option [value]="true">Paid</option>
+                <option [value]="false">Not Paid</option>
+              </select>
+            </div>
+            <div class="col-auto ms-auto">
+              <button class="btn btn-outline-success" (click)="fiterRecord()">
+                <i class="fa-solid fa-filter"></i>
+              </button>
+              <button class="btn btn-outline-danger ms-2" (click)="resetFilter()">
+                <i class="fa-solid fa-arrow-rotate-right"></i>
+              </button>
+            </div>
+          </div>
+          <ul ngbNav #nav="ngbNav" [(activeId)]="active" class="nav-tabs">
+            <li [ngbNavItem]="1">
+              <button ngbNavLink (click)="getInvestmentDetail()">Investment Transaction</button>
+              <ng-template ngbNavContent>
+                <div class="t-table t-list col-md-12 mt-2">
+                  <div class="t-head">
+                    <div class="tr">
+                      <div class="th fe-4">
+                          <div class="cell-wrapper">
+                            Name
+                          </div>
                       </div>
-                      <span class="ps-2">{{investment.firstName}}
-                        {{investment.lastName}}
-                        <small class="text-muted text-decoration-none ps-2">
-                          [A/C Id: {{investment.accountId}}]
-                        </small>
-                      </span>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                            Product Name
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              Final Price
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              Period (months)
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              Paid Installment
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              EMI Start Date
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                            EMI End Date
+                        </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                            Status
+                        </div>
+                      </div>
+                      <div class="th text-center fe-1">
+                        <div class="cell-wrapper">
+                          <div>ACTIONS</div>
+                        </div>
+                      </div>
                     </div>
                   </div>
-                  <div class="td align-middle fe-2">
-                    <div class="cell-wrapper">
-                      <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.investmentAmount | number : '1.2-2'}}
-                    </div>
-                  </div>
-                  <div class="td align-middle fe-2">
-                    <div class="cell-wrapper">
-                      <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.totalProfitAmount | number : '1.2-2'}}
-                    </div>
-                  </div>
-                  <div class="td align-middle fe-2">
-                    <div class="cell-wrapper">
-                      {{investment.period}}
-                    </div>
-                  </div>
-                  <div class="td align-middle fe-2">
-                    <div class="cell-wrapper">
-                      {{investment.paidInstallment}}
-                    </div>
-                  </div>
-                  <div class="td align-middle fe-2">
-                    <div class="cell-wrapper">
-                      {{investment.investmentDate | date}}
-                    </div>
-                  </div>
-                  <div class="td align-middle fe-2">
-                    <div class="cell-wrapper">
-                      {{investment.lastPaymentDate | date}}
-                    </div>
-                  </div>
-                  <div class="td fe-2 align-middle">
-                    <div class="cell-wrapper">
-                      @if (investment.isPaid) {
-                        <i class="fa-solid fa-square-check text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Paid"></i> Paid
-                      } @else {
-                        <i class="fa-solid fa-clock text-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Not Paid"></i> Not Paid
-                      }
-                    </div>
-                  </div>
-                  <div class="td fe-1 align-middle">
-                    <div class="d-flex flex-row pe-1" [ngClass]="{'justify-content-between': !investment.isPaid, 'justify-content-end': investment.isPaid}">
-                      @if (!investment.isPaid) {
-                        <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="openPaymentPopUp(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="Make Payment">
-                          <span class="badge bg-primary">
-                              <i class="fa-solid fa-money-bill-1"></i>
-                          </span>
-                        </a>
-                      }
-                      <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="viewPaymentDetail(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="View Payment Detail">
-                        <span class="badge bg-success">
-                          <i class="fa-solid fa-money-bill-transfer"></i>
-                        </span>
-                      </a>
-                    </div>
+                  <div class="t-body">
+                    @if (investmentDetail.length > 0) {
+                      <div class="tr py-2 align-items-center rounded" *ngFor="let investment of investmentDetail; let i = index;" [ngClass]="{'paid-installment': investment.isPaid}">
+                        <div class="td align-middle fe-4">
+                          <div class="cell-wrapper row align-items-center">
+                            <div class="col-auto d-inline-block rounded-circle">
+                              <img src="assets/images/face.jpg" alt="profile" class="rounded-circle user-profile">
+                            </div>
+                            <div class="col">
+                              <p class="mb-0 fw-semibold">{{investment.firstName}} {{investment.lastName}}</p>
+                              <small class="text-muted text-decoration-none">
+                                [A/C Id: {{investment.accountId}}]
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.investmentAmount | number : '1.2-2'}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{investment.totalProfitAmount | number : '1.2-2'}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{investment.period}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{investment.paidInstallment}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{investment.investmentDate | date}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{investment.lastPaymentDate | date}}
+                          </div>
+                        </div>
+                        <div class="td fe-2 align-middle">
+                          <div class="cell-wrapper">
+                            @if (investment.isPaid) {
+                              <i class="fa-solid fa-square-check text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Paid"></i> Paid
+                            } @else {
+                              <i class="fa-solid fa-clock text-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Not Paid"></i> Not Paid
+                            }
+                          </div>
+                        </div>
+                        <div class="td fe-1 align-middle">
+                          <div class="d-flex flex-row pe-1" [ngClass]="{'justify-content-between': !investment.isPaid, 'justify-content-end': investment.isPaid}">
+                            @if (!investment.isPaid) {
+                              <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="openPaymentPopUp(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="Make Payment">
+                                <span class="badge bg-primary">
+                                    <i class="fa-solid fa-money-bill-1"></i>
+                                </span>
+                              </a>
+                            }
+                            <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="viewPaymentDetail(investment)" data-bs-toggle="tooltip" data-bs-placement="right" title="View Payment Detail">
+                              <span class="badge bg-success">
+                                <i class="fa-solid fa-money-bill-transfer"></i>
+                              </span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    } @else {
+                      <app-bt-record-not-found></app-bt-record-not-found>
+                    }
                   </div>
                 </div>
-              } @else {
-                <app-bt-record-not-found></app-bt-record-not-found>
-              }
-            </div>
-          </div>
+                @if (isPageReady) {
+                  <div class="">
+                    <app-pagination [pagination]="transactionData" (onPageChange)="GetFilterResult($event)"></app-pagination>
+                  </div>
+                }
+              </ng-template>
+            </li>
+            <li [ngbNavItem]="2">
+              <button ngbNavLink (click)="getCDProductDetail()">CD Product Transaction</button>
+              <ng-template ngbNavContent>
+                <div class="t-table t-list col-md-12 mt-2">
+                  <div class="t-head">
+                    <div class="tr">
+                      <div class="th fe-4">
+                          <div class="cell-wrapper">
+                            Name
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                            Product Name
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              Final Price
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                            EMI Amount
+                        </div>
+                    </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              Period (months)
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              Paid Installment
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                          <div class="cell-wrapper">
+                              EMI Start Date
+                          </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                            EMI End Date
+                        </div>
+                      </div>
+                      <div class="th fe-2">
+                        <div class="cell-wrapper">
+                            Status
+                        </div>
+                      </div>
+                      <div class="th text-center fe-1">
+                        <div class="cell-wrapper">
+                          <div>ACTIONS</div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="t-body">
+                    @if (cdProductDetail.length > 0) {
+                      <div class="tr py-2 align-items-center rounded" *ngFor="let cdProduct of cdProductDetail; let i = index;" [ngClass]="{'paid-installment': cdProduct.isPaid}">
+                        <div class="td align-middle fe-4">
+                          <div class="cell-wrapper row align-items-center">
+                            <div class="col-auto d-inline-block rounded-circle">
+                              <img src="assets/images/face.jpg" alt="profile" class="rounded-circle user-profile">
+                               <!-- <div class="user-profile fw-semibold rounded-circle text-dark d-flex align-items-center justify-content-center" [style.backgroundColor]="getBackgroundColor()">
+                                {{user.firstName | slice: 0:2 | titlecase}}
+                               </div> -->
+                            </div>
+                            <div class="col">
+                              <p class="mb-0 fw-semibold">{{cdProduct.firstName}} {{cdProduct.lastName}}</p>
+                              <small class="text-muted text-decoration-none">
+                                [A/C Id: {{cdProduct.accountId}}]
+                              </small>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{cdProduct.productName}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{cdProduct.finalPrice | number : '1.2-2'}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            <i class="fa-solid fa-indian-rupee-sign pe-1"></i> {{cdProduct.emiAmount | number : '1.2-2'}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{cdProduct.period}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{cdProduct.paidInstallment}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{cdProduct.emiStartDate | date}}
+                          </div>
+                        </div>
+                        <div class="td align-middle fe-2">
+                          <div class="cell-wrapper">
+                            {{cdProduct.emiEndDate | date}}
+                          </div>
+                        </div>
+                        <div class="td fe-2 align-middle">
+                          <div class="cell-wrapper">
+                            @if (cdProduct.isPaid) {
+                              <i class="fa-solid fa-square-check text-success" data-bs-toggle="tooltip" data-bs-placement="right" title="Paid"></i> Paid
+                            } @else {
+                              <i class="fa-solid fa-clock text-info" data-bs-toggle="tooltip" data-bs-placement="right" title="Not Paid"></i> Not Paid
+                            }
+                          </div>
+                        </div>
+                        <div class="td fe-1 align-middle">
+                          <div class="d-flex flex-row pe-1" [ngClass]="{'justify-content-between': !cdProduct.isPaid, 'justify-content-end': cdProduct.isPaid}">
+                            @if (!cdProduct.isPaid) {
+                              <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="openCDProductPaymentPopUp(cdProduct)" data-bs-toggle="tooltip" data-bs-placement="right" title="Make Payment">
+                                <span class="badge bg-primary">
+                                    <i class="fa-solid fa-money-bill-1"></i>
+                                </span>
+                              </a>
+                            }
+                            <a href="javascript:void(0)" [ngClass]="{'pe-none': isLoading}" (click)="viewCDProductPaymentDetail(cdProduct)" data-bs-toggle="tooltip" data-bs-placement="right" title="View Payment Detail">
+                              <span class="badge bg-success">
+                                <i class="fa-solid fa-money-bill-transfer"></i>
+                              </span>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    } @else {
+                      <app-bt-record-not-found></app-bt-record-not-found>
+                    }
+                  </div>
+                </div>
+                @if (isPageReady) {
+                  <div class="">
+                    <app-pagination [pagination]="transactionData" (onPageChange)="GetCdProductFilterResult($event)"></app-pagination>
+                  </div>
+                }
+              </ng-template>
+            </li>
+          </ul>
+          
+          <div [ngbNavOutlet]="nav" class="mt-2"></div>
         </div>
-        @if (isPageReady) {
-          <div class="">
-            <app-pagination [pagination]="transactionData" (onPageChange)="GetFilterResult($event)"></app-pagination>
-          </div>
-        }
     </div>
 </div>
 
-<!-- Payment Modal -->
+<!-- Investment Payment Modal -->
 <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content px-3">
@@ -157,32 +367,32 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-            @if (selectedPayment != null) {
-                <div class="row">
-                  <div class="col-md-6">
-                      Name :
-                  </div>
-                  <div class="col-md-6">
-                      {{selectedPayment.firstName}} {{selectedPayment.lastName}}
-                  </div>
+          @if (selectedInvestmentPayment != null) {
+              <div class="row">
+                <div class="col-md-6">
+                    Name :
                 </div>
-                <div class="row mt-2">
-                  <div class="col-md-6">
-                      Investment Amount :
-                  </div>
-                  <div class="col-md-6">
-                    <i class="fa-solid fa-indian-rupee-sign pe-1"></i>{{selectedPayment.investmentAmount}}
-                  </div>
+                <div class="col-md-6">
+                    {{selectedInvestmentPayment.firstName}} {{selectedInvestmentPayment.lastName}}
                 </div>
-                <div class="row mt-2">
-                  <div class="col-md-6">
-                      Installment :
-                  </div>
-                  <div class="col-md-6">
-                    {{getOrdinalInstallment(selectedPayment.paidInstallment + 1, selectedPayment.period)}}
-                  </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                    Investment Amount :
                 </div>
-            }
+                <div class="col-md-6">
+                  <i class="fa-solid fa-indian-rupee-sign pe-1"></i>{{selectedInvestmentPayment.investmentAmount}}
+                </div>
+              </div>
+              <div class="row mt-2">
+                <div class="col-md-6">
+                    Installment :
+                </div>
+                <div class="col-md-6">
+                  {{getOrdinalInstallment(selectedInvestmentPayment.paidInstallment + 1, selectedInvestmentPayment.period)}}
+                </div>
+              </div>
+          }
         </div>
         <div class="modal-footer border-top-0">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark pe-2"></i>Close</button>
@@ -194,6 +404,53 @@
       </div>
     </div>
   </div>
+
+<!-- CD Product Payment Modal -->
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="cdProductPaymentModal" tabindex="-1" aria-labelledby="cdProductPaymentModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content px-3">
+      <div class="modal-header border-bottom-0">
+        <h1 class="modal-title fs-5" id="cdProductPaymentModalLabel">Payment Detail</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        @if (selectedCDProductPayment != null) {
+          <div class="row">
+            <div class="col-md-6">
+                Name :
+            </div>
+            <div class="col-md-6">
+                {{selectedCDProductPayment.firstName}} {{selectedCDProductPayment.lastName}}
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6">
+                EMI Amount :
+            </div>
+            <div class="col-md-6">
+              <i class="fa-solid fa-indian-rupee-sign pe-1"></i>{{selectedCDProductPayment.emiAmount}}
+            </div>
+          </div>
+          <div class="row mt-2">
+            <div class="col-md-6">
+                Installment :
+            </div>
+            <div class="col-md-6">
+              {{getOrdinalInstallment(selectedCDProductPayment.paidInstallment + 1, selectedCDProductPayment.period)}}
+            </div>
+          </div>
+        }
+      </div>
+      <div class="modal-footer border-top-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-solid fa-xmark pe-2"></i>Close</button>
+        <button class="btn btn-success"(click)="makeCDProductPayment()">
+          <i class="" [ngClass]="{'fa-solid fa-spinner fa-spin': isLoading, 'fa-regular fa-floppy-disk': !isLoading}"></i>
+          <span class="ps-2">Make Payment</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!--View Payment Detial Modal -->
 <div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="viewPaymentModal" tabindex="-1" aria-labelledby="viewPaymentModalLabel" aria-hidden="true">
@@ -211,7 +468,7 @@
                 <th>Installment No.</th>
                 <th>Amount</th>
                 <th>IsPaid</th>
-                <th>Payment/Expected Date</th>
+                <th>Payment Date</th>
               </tr>
             </thead>
             <tbody>

@@ -12,6 +12,7 @@ import { AllownumberDirective } from '../../util/directives/allownumber.directiv
 import { CommonModule } from '@angular/common';
 import { iNavigation } from '../../../providers/iNavigation';
 import { ManageUser, UserInvestment } from '../../../providers/constants';
+import { user } from '../../adminInterfacemodal/admin-interface-modals';
 
 @Component({
   selector: 'app-user',
@@ -91,7 +92,7 @@ export class UserComponent implements OnInit {
 
   resetFilter() {
     this.userData = new Filter();
-    this.userDetail.name="";
+    this.userDetail.firstName="";
     this.userDetail.mobileNumber = null;
     this.userDetail.emailId="";
     this.anyFilter = "";
@@ -115,20 +116,20 @@ export class UserComponent implements OnInit {
 
   filterRecords(inputElement: HTMLInputElement) {
     let delimiter = "";
-    this.userData.searchString = ""
     this.userData.reset();
+    this.userData.searchString = "1=1 "
     if(this.userDetail.mobileNumber !== null && this.userDetail.mobileNumber.trim() !== '') {
-      this.userData.searchString += `1=1 And mobileNumber like '%${this.userDetail.mobileNumber}%'`;
+      this.userData.searchString += `And mobileNumber like '%${this.userDetail.mobileNumber}%'`;
       delimiter = "and";
     }
 
     if(this.userDetail.firstName !== null && this.userDetail.firstName !== "") {
-      this.userData.searchString += ` 1=1 and firstName like '%${this.userDetail.firstName}%' or lastName like '%${this.userDetail.firstName}%'`;
+      this.userData.searchString += ` and firstName like '%${this.userDetail.firstName}%' or lastName like '%${this.userDetail.firstName}%'`;
       delimiter = "and";
     }
 
     if(this.userDetail.emailId !== null && this.userDetail.emailId !== "") {
-      this.userData.searchString += `1=1 And emailId like '%${this.userDetail.emailId}%'`;
+      this.userData.searchString += `And emailId like '%${this.userDetail.emailId}%'`;
       delimiter = "and";
     }
 
@@ -238,24 +239,8 @@ export class UserComponent implements OnInit {
       this.noOfRecord = 100;
     })
   }
-}
 
-export interface user {
-  rowIndex?: number,
-  userId: number,
-  firstName: string,
-  lastName: string,
-  address: string,
-  mobileNumber: string,
-  alternateNumber: string,
-  emailId: string,
-  accountId: string,
-  referenceId: number,
-  dob?: Date,
-  createdBy?: number,
-  updatedBy?: number,
-  createdOn?: Date,
-  updatedOn?: Date,
-  total?: number,
-  name?: string,
+  deleteUserPopup() {
+    ShowModal("underConstructionModal");
+  }
 }
